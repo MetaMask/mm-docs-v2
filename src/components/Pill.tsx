@@ -15,8 +15,8 @@ export default function Pill({ color, children }: PillProps) {
   }
 
   return (
-    <span className={clsx(styles.pill, styles[`pill--${color}`])}>
+    <mark role="note" className={clsx(styles.pill, styles[`pill--${color}`])}>
       {children}
-    </span>
+    </mark>
   );
 }
