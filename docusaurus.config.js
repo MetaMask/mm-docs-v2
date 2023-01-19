@@ -45,7 +45,7 @@ const config = {
           ],
         },
         theme: {
-          customCss: require.resolve("./src/css/custom.css"),
+          customCss: require.resolve("./src/css/custom.css") ,
         },
       }),
     ],
@@ -60,12 +60,6 @@ const config = {
         routeBasePath: "snaps",
         sidebarPath: require.resolve("./snaps-sidebar.js"),
         breadcrumbs: false,
-        versions: {
-          production: {
-            label: "Current",
-            badge: false,
-          },
-        },
       }),
     ],
   ],
