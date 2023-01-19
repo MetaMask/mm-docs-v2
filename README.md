@@ -2,7 +2,7 @@
 
 This is the MetaMask documentation repo. It's built on [Docusaurus](https://docusaurus.io/), a static site generator purpose-built for technical documentation.
 
-## Features
+### Features
 
 Our instance of Docusaurus uses multiple of its powerful features, including:
 
