@@ -1,5 +1,123 @@
 # Set up your development environment
 
-This page should contain instructions for setting up a development environment and getting started
-using the API.
-See [this issue](https://github.com/MetaMask/mm-docs-v2/issues/9).
+You can easily set up a simple dapp to integrate with MetaMask.
+First, [install MetaMask](https://metamask.io/) in the browser of your choice on your development
+machine.
+When developing a dapp, we recommend [running a test network](run-test-network.md).
+
+In a text editor of your choice, such as [VS Code](https://code.visualstudio.com/), create a
+JavaScript file, `index.js`, and an HTML file, `index.html`.
+
+For any Ethereum dapp to work, your project script must:
+
+1. [Detect the Ethereum provider.](detect-metamask.md)
+1. [Detect which Ethereum network the user is connected to](detect-network.md).
+1. [Access the user's Ethereum account(s)](access-account.md).
+
+:::tip
+We also recommend [importing and using MetaMask SDK](../how-to/use-sdk/index.md) to enable a
+reliable, secure, and seamless connection from your dapp to a MetaMask wallet client.
+:::
+
+The following is an example simple dapp script:
+
+```javascript title="index.js"
+/*****************************************/
+/* Detect the MetaMask Ethereum provider */
+/*****************************************/
+
+import detectEthereumProvider from '@metamask/detect-provider';
+
+// this returns the provider, or null if it wasn't detected
+const provider = await detectEthereumProvider();
+
+if (provider) {
+  startApp(provider); // Initialize your app
+} else {
+  console.log('Please install MetaMask!');
+}
+
+function startApp(provider) {
+  // If the provider returned by detectEthereumProvider is not the same as
+  // window.ethereum, something is overwriting it, perhaps another wallet.
+  if (provider !== window.ethereum) {
+    console.error('Do you have multiple wallets installed?');
+  }
+  // Access the decentralized web!
+}
+
+/**********************************************************/
+/* Handle chain (network) and chainChanged (per EIP-1193) */
+/**********************************************************/
+
+const chainId = await ethereum.request({ method: 'eth_chainId' });
+handleChainChanged(chainId);
+
+ethereum.on('chainChanged', handleChainChanged);
+
+function handleChainChanged(_chainId) {
+  // We recommend reloading the page, unless you must do otherwise
+  window.location.reload();
+}
+
+/***********************************************************/
+/* Handle user accounts and accountsChanged (per EIP-1193) */
+/***********************************************************/
+
+let currentAccount = null;
+ethereum
+  .request({ method: 'eth_accounts' })
+  .then(handleAccountsChanged)
+  .catch((err) => {
+    // Some unexpected error.
+    // For backwards compatibility reasons, if no accounts are available,
+    // eth_accounts will return an empty array.
+    console.error(err);
+  });
+
+// Note that this event is emitted on page load.
+// If the array of accounts is non-empty, you're already
+// connected.
+ethereum.on('accountsChanged', handleAccountsChanged);
+
+// For now, 'eth_accounts' will continue to always return an array
+function handleAccountsChanged(accounts) {
+  if (accounts.length === 0) {
+    // MetaMask is locked or the user has not connected any accounts
+    console.log('Please connect to MetaMask.');
+  } else if (accounts[0] !== currentAccount) {
+    currentAccount = accounts[0];
+    // Do any other work!
+  }
+}
+
+/*********************************************/
+/* Access the user's accounts (per EIP-1102) */
+/*********************************************/
+
+// You should only attempt to request the user's accounts in response to user
+// interaction, such as a button click.
+// Otherwise, you popup-spam the user like it's 1999.
+// If you fail to retrieve the user's account(s), you should encourage the user
+// to initiate the attempt.
+document.getElementById('connectButton', connect);
+
+// While you are awaiting the call to eth_requestAccounts, you should disable
+// any buttons the user can click to initiate the request.
+// MetaMask will reject any additional requests while the first is still
+// pending.
+function connect() {
+  ethereum
+    .request({ method: 'eth_requestAccounts' })
+    .then(handleAccountsChanged)
+    .catch((err) => {
+      if (err.code === 4001) {
+        // EIP-1193 userRejectedRequest error
+        // If this happens, the user rejected the connection request.
+        console.log('Please connect to MetaMask.');
+      } else {
+        console.error(err);
+      }
+    });
+}
+```

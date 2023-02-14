@@ -1,7 +1,7 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Access an account
+# Access a user's account
 
 "Connecting" or "logging in" to MetaMask effectively means "to access the user's Ethereum account(s)".
 

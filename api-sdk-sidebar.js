@@ -13,8 +13,8 @@ const sidebar = {
         "get-started/set-up-dev-environment",
         "get-started/run-test-network",
         "get-started/detect-metamask",
+        "get-started/detect-network",
         "get-started/access-account",
-        "get-started/log-in-users",
       ],
     },
     {

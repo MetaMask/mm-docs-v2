@@ -13,8 +13,8 @@ Get started by [setting up your development environment](get-started/set-up-dev-
 
 ## What is the MetaMask Ethereum provider API?
 
-The [MetaMask Ethereum provider API](reference/provider-api.md) is an API that MetaMask injects into
-websites visited by MetaMask users.
+The [MetaMask Ethereum provider API](reference/provider-api.md) is a JavaScript API that MetaMask
+injects into websites visited by MetaMask users.
 Your dapp can use this API to request users' Ethereum accounts, read data from blockchains the user
 is connected to, and suggest that the user sign messages and transactions.
 
