@@ -24,7 +24,7 @@ reliable, secure, and seamless connection from your dapp to a MetaMask wallet cl
 
 We recommend providing a button to allow the user to connect MetaMask to your dapp.
 Selecting this button should call the
-[`eth_requestAccounts`](../reference/rpc-api.md#ethereum-json-rpc-methods) RPC API method.
+[`eth_requestAccounts`](../reference/rpc-api.md#ethereum-json-rpc-methods) RPC method.
 For example, you can add the following to your project script and HTML file:
 
 <Tabs>
@@ -69,6 +69,7 @@ async function getAccount() {
 <TabItem value="html" label="HTML">
 
 ```html
+<!-- Display a connect button and selected account -->
 <button class="enableEthereumButton">Enable Ethereum</button>
 <h2>Account: <span class="showAccount"></span></h2>
 ```
@@ -121,6 +122,3 @@ In the future, the accounts array may contain more than one account.
 This functionality isn't available yet.
 The first account in the array will always be considered the user's "selected" account.
 :::
-
-Once you've connected to a user, you can re-check the current account by checking the
-`ethereum.selectedAddress` object.

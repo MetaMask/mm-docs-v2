@@ -8,8 +8,8 @@ First, [install MetaMask](https://metamask.io/) in the browser of your choice on
 machine.
 When developing a dapp, we recommend [running a test network](run-test-network.md).
 
-In a text editor of your choice, such as [VS Code](https://code.visualstudio.com/), create a
-JavaScript file, `index.js`, and an HTML file, `index.html`.
+In a text editor of your choice, such as [VS Code](https://code.visualstudio.com/), create a project
+directory with a JavaScript file, `index.js`, and an HTML file, `index.html`.
 
 For any Ethereum dapp to work, your project script must:
 
@@ -114,9 +114,26 @@ async function getAccount() {
 <TabItem value="html" label="HTML">
 
 ```html title="index.html"
-<button class="enableEthereumButton">Enable Ethereum</button>
-<h2>Account: <span class="showAccount"></span></h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Simple dapp</title>
+  <script type="module" src="index.js"></script>
+</head>
+<body>
+  <!-- Display a connect button and selected account -->
+  <button class="enableEthereumButton">Enable Ethereum</button>
+  <h2>Account: <span class="showAccount"></span></h2>
+</body>
+</html>
 ```
 
 </TabItem>
 </Tabs>
+
+:::tip
+You can install the [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
+extension for VS Code to easily launch a local development server for your dapp.
+:::

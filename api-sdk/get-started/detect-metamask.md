@@ -13,13 +13,22 @@ if (typeof window.ethereum !== 'undefined') {
 ```
 
 :::tip
-To differentiate MetaMask from other Ethereum-compatible browsers, you can detect MetaMask using
-`ethereum.isMetaMask`.
+To differentiate MetaMask from other Ethereum-compatible browsers, you can detect MetaMask using the
+[`ethereum.isMetaMask`](../reference/provider-api.md#ethereumismetamask) property.
 :::
- 
-We recommend using [`@metamask/detect-provider`](https://github.com/MetaMask/detect-provider)
-to detect the provider on any platform or browser.
-For example, you can add the following to your project script:
+
+## Use @metamask/detect-provider
+
+We recommend using the [`@metamask/detect-provider`](https://github.com/MetaMask/detect-provider)
+utility to detect the provider on any platform or browser.
+
+Install `@metamask/detect-provider` in your project directory:
+
+```bash
+npm i @metamask/detect-provider
+```
+
+You can then add something like the following to your project script:
 
 ```javascript
 // This function detects most providers injected at window.ethereum.
