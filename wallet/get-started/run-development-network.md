@@ -11,13 +11,13 @@ up a development network.
 
 When you create a Ganache workspace, enter the seed phrase you use for your MetaMask instance into
 the **Account & Keys** setting.
-Ganache automatically gives each of your first 10 accounts 100 test ether (you can also configure
+Ganache automatically gives each of your first 10 accounts 100 test ether (you can configure
 these numbers in **Accounts & Keys**), which makes it easy to start development.
 
 :::caution important
 Since your seed phrase controls all your accounts, we recommend keeping at least one seed phrase for
-development, separate from any you use to store real value.
-You can manage multiple seed phrases by using multiple browser profiles, each with its own clean
+development, separate from any used to store real value.
+You can manage multiple seed phrases by using multiple browser profiles, each with its own
 MetaMask installation.
 :::
 

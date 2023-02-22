@@ -4,8 +4,11 @@ description: Detect a user's network and network changes.
 
 # Detect a user's network
 
+It's important to keep track of the user's network chain ID because all RPC requests are submitted
+to the currently connected network.
+
 Use the [`eth_chainId`](https://metamask.github.io/api-playground/api-documentation/#eth_chainId)
-RPC method to detect what network a user is on.
+RPC method to detect the chain ID of the user's current network.
 Subscribe to the [`chainChanged`](../reference/provider-api.md#chainchanged) provider event to
 detect when the user changes networks.
 
@@ -23,15 +26,14 @@ function handleChainChanged(_chainId) {
 }
 ```
 
-:::note
-These are the IDs of the Ethereum chains that MetaMask supports by default.
+## Chain IDs
+
+These are the chain IDs of the Ethereum networks that MetaMask supports by default.
 Consult [chainid.network](https://chainid.network) for more.
 
-| Hex  | Decimal | Network                         |
-| ---- | ------- | ------------------------------- |
-| 0x1  | 1       | Ethereum main network (mainnet) |
-| 0x3  | 3       | Ropsten test network            |
-| 0x4  | 4       | Rinkeby test network            |
-| 0x5  | 5       | Goerli test network             |
-| 0x2a | 42      | Kovan test network              |
-:::
+| Hex      | Decimal  | Network                         |
+| -------- | -------- | ------------------------------- |
+| 0x1      | 1        | Ethereum main network (mainnet) |
+| 0x5      | 5        | Goerli test network             |
+| 0xaa36a7 | 11155111 | Sepolia test network            |
+| 0x539    | 1337     | Localhost test networks (including [Ganache](run-development-network.md)) |
