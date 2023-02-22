@@ -1,40 +1,47 @@
+---
+description: Access a user's accounts and handle changed accounts.
+---
+
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Access a user's account
+# Access a user's accounts
 
 User accounts are used in a variety of contexts in Ethereum, including as identifiers and for
 signing transactions.
 To request a signature from a user or have a user approve a transaction, your dapp must
-be able to access the user's accounts.
+access the user's accounts using the
+[`eth_requestAccounts`](../reference/rpc-api.md#ethereum-json-rpc-methods) RPC method.
 
-When accessing user's account:
+When accessing a user's accounts:
 
 - You should **only** initiate a connection request in response to direct user action, such as
-  selecting a button.
+  selecting a [connect button](#create-a-connect-button).
 - You should **always** disable the connect button while the connection request is pending.
 - You should **never** initiate a connection request on page load.
 
 :::tip
-You can [import and use MetaMask SDK](../how-to/use-sdk/index.md) to enable a
-reliable, secure, and seamless connection from your dapp to a MetaMask wallet client.
+You can also [use MetaMask SDK](../how-to/use-sdk/index.md) to enable a reliable, secure, and
+seamless connection from your dapp to a MetaMask wallet client.
 :::
 
 ## Create a connect button
 
-We recommend providing a button to allow the user to connect MetaMask to your dapp.
-Selecting this button should call the
-[`eth_requestAccounts`](../reference/rpc-api.md#ethereum-json-rpc-methods) RPC method.
-For example, you can add the following to your project script and HTML file:
+We recommend providing a button to allow users to connect MetaMask to your dapp.
+Selecting this button should call `eth_requestAccounts` to access the user's account.
+
+In the [example project code](set-up-dev-environment.md#example), the following JavaScript code
+accesses the user's accounts when they select a connect button, and the following HTML code
+displays the button and the current account:
 
 <Tabs>
 <TabItem value="javascript" label="JavaScript">
 
-```javascript
-// You should only attempt to request the user's accounts in response to user
+```javascript title="index.js"
+// You should only attempt to request the user's account in response to user
 // interaction, such as selecting a button.
 // Otherwise, you popup-spam the user like it's 1999.
-// If you fail to retrieve the user's account(s), you should encourage the user
+// If you fail to retrieve the user's account, you should encourage the user
 // to initiate the attempt.
 const ethereumButton = document.querySelector('.enableEthereumButton');
 const showAccount = document.querySelector('.showAccount');
@@ -50,7 +57,6 @@ ethereumButton.addEventListener('click', () => {
 async function getAccount() {
   const accounts = await ethereum
     .request({ method: 'eth_requestAccounts' })
-    .then(handleAccountsChanged)
     .catch((err) => {
       if (err.code === 4001) {
         // EIP-1193 userRejectedRequest error
@@ -68,8 +74,8 @@ async function getAccount() {
 </TabItem>
 <TabItem value="html" label="HTML">
 
-```html
-<!-- Display a connect button and selected account -->
+```html title="index.html"
+<!-- Display a connect button and the current account -->
 <button class="enableEthereumButton">Enable Ethereum</button>
 <h2>Account: <span class="showAccount"></span></h2>
 ```
@@ -77,17 +83,17 @@ async function getAccount() {
 </TabItem>
 </Tabs>
 
-This promise-returning function resolves with an array of hex-prefixed Ethereum addresses, which can
-be used as general account references when sending transactions.
-
 ## Handle accounts
 
-Handle user accounts using the `eth_accounts` RPC API method.
-To be notified when the user changes accounts, subscribe to the
-[`accountsChanged`](../reference/provider-api.md#accountschanged) provider event.
-For example, you can add the following to your project script:
+Use the [`eth_accounts`](https://metamask.github.io/api-playground/api-documentation/#eth_accounts)
+RPC method to handle user accounts.
+Subscribe to the [`accountsChanged`](../reference/provider-api.md#accountschanged) provider event to
+be notified when the user changes accounts.
 
-```javascript
+In the [example project script](set-up-dev-environment.md#example), the following code handles user
+accounts and detects when the user changes accounts:
+
+```javascript title="index.js"
 let currentAccount = null;
 ethereum
   .request({ method: 'eth_accounts' })
@@ -112,7 +118,8 @@ function handleAccountsChanged(accounts) {
   } else if (accounts[0] !== currentAccount) {
     // Reload your interface with accounts[0].
     currentAccount = accounts[0];
-    // Do any other work!
+    // Update the account displayed (see the HTML for the connect button)
+    showAccount.innerHTML = currentAccount;
   }
 }
 ```

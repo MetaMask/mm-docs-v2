@@ -1,3 +1,7 @@
+---
+description: Detect the MetaMask Ethereum provider object.
+---
+
 # Detect MetaMask
 
 The presence of the MetaMask Ethereum provider object, `window.ethereum`, in a user's browser
@@ -20,17 +24,19 @@ To differentiate MetaMask from other Ethereum-compatible browsers, you can detec
 ## Use @metamask/detect-provider
 
 We recommend using the [`@metamask/detect-provider`](https://github.com/MetaMask/detect-provider)
-utility to detect the provider on any platform or browser.
+module to detect the MetaMask Ethereum provider on any platform or browser.
 
-Install `@metamask/detect-provider` in your project directory:
+Use [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) to install
+`@metamask/detect-provider` in your project directory:
 
 ```bash
 npm i @metamask/detect-provider
 ```
 
-You can then add something like the following to your project script:
+In the [example project script](set-up-dev-environment.md#example), the following code detects the
+provider using the `@metamask/detect-provider` module:
 
-```javascript
+```javascript title="index.js"
 // This function detects most providers injected at window.ethereum.
 import detectEthereumProvider from '@metamask/detect-provider';
 
@@ -54,3 +60,20 @@ function startApp(provider) {
   // Access the decentralized web!
 }
 ```
+
+Use a bundler such as [Webpack](https://github.com/webpack/webpack) to compile the module and create
+an output script.
+Install Webpack in your project directory:
+
+```bash
+npm i --save-dev webpack
+```
+
+Compile the module:
+
+```bash
+npx webpack
+```
+
+Make sure to run `npx webpack` again upon any changes to `index.js`.
+See [Webpack's Getting Started guide](https://webpack.js.org/guides/getting-started/) for more information.

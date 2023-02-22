@@ -1,14 +1,19 @@
+---
+description: Detect a user's network and network changes.
+---
+
 # Detect a user's network
 
-Use the `eth_chainId` RPC method to detect what network a user is on.
+Use the [`eth_chainId`](https://metamask.github.io/api-playground/api-documentation/#eth_chainId)
+RPC method to detect what network a user is on.
 Subscribe to the [`chainChanged`](../reference/provider-api.md#chainchanged) provider event to
-detect when a user changes networks.
+detect when the user changes networks.
 
-For example, you can add the following to your project script:
+In the [example project script](set-up-dev-environment.md#example), the following code detects a
+user's network and when the user changes networks:
 
-```javascript
+```javascript title="index.js"
 const chainId = await ethereum.request({ method: 'eth_chainId' });
-handleChainChanged(chainId);
 
 ethereum.on('chainChanged', handleChainChanged);
 
