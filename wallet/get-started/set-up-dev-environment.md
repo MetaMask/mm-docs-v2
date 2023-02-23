@@ -119,7 +119,7 @@ function handleAccountsChanged(accounts) {
 }
 
 /*********************************************/
-/* Access the user's account (per EIP-1102) */
+/* Access the user's accounts (per EIP-1102) */
 /*********************************************/
 
 const ethereumButton = document.querySelector('.enableEthereumButton');

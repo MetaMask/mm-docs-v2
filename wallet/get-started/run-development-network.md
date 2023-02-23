@@ -15,7 +15,7 @@ Ganache automatically gives each of your first 10 accounts 100 test ether (you c
 these numbers in **Accounts & Keys**), which makes it easy to start development.
 
 :::caution important
-Since your seed phrase controls all your accounts, we recommend keeping at least one seed phrase for
+Your seed phrase controls all your accounts, so we recommend keeping at least one seed phrase for
 development, separate from any used to store real value.
 You can manage multiple seed phrases by using multiple browser profiles, each with its own
 MetaMask installation.
@@ -28,10 +28,13 @@ network, which comprises the RPC URL of your network:
 http://<hostname>:<port>
 ```
 
-In the MetaMask extension, to connect to your Ganache network, select the network you're currently
-connected to.
-Then, select **Add network** and **Add a network manually**.
-Enter the **RPC URL** of your network and MetaMask's default **Chain ID** for Ganache, `1337`.
+In the MetaMask extension, connect to your Ganache network:
+
+1. Select the network you're currently connected to.
+1. Select **Add network**.
+1. Select **Add a network manually**.
+1. Enter the RPC URL of your network.
+1. Enter MetaMask's default [chain ID](detect-network.md#chain-ids) for Ganache, `1337`.
 
 ## Reset your local nonce calculation
 
