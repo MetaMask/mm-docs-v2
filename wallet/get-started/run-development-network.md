@@ -5,11 +5,11 @@ description: Configure and connect a Ganache development network.
 # Run a development network
 
 You can run a personal Ethereum development network using [Ganache](https://www.trufflesuite.com/ganache),
-which allows you to develop a dapp quickly, easily, and safely.
-Follow the [Ganache quickstart](https://trufflesuite.com/docs/ganache/quickstart/) to quickly set
+which allows you to develop a dapp in a secure test environment.
+Follow the [Ganache quickstart](https://trufflesuite.com/docs/ganache/quickstart/) to set
 up a development network.
 
-When you create a Ganache workspace, enter the seed phrase you use for your MetaMask instance into
+When you create a Ganache workspace, enter your MetaMask seed phrase into
 the **Account & Keys** setting.
 Ganache automatically gives each of your first 10 accounts 100 test ether (you can configure
 these numbers in **Accounts & Keys**), which makes it easy to start development.
@@ -21,7 +21,7 @@ You can manage multiple seed phrases by using multiple browser profiles, each wi
 MetaMask installation.
 :::
 
-In the **Server** setting of your workspace, you can find the hostname and port of your Ganache
+In the **Server** setting of your workspace, find the hostname and port of your Ganache
 network, which comprises the RPC URL of your network:
 
 ```text
@@ -35,7 +35,7 @@ Enter the **RPC URL** of your network and MetaMask's default **Chain ID** for Ga
 
 ## Reset your local nonce calculation
 
-If you're running a development network and restart it, you can accidentally confuse MetaMask
+If you restart your development network, you can accidentally confuse MetaMask
 because it calculates the next [nonce](../how-to/send-transactions.md#nonce) based on both the
 network state *and* the known sent transactions.
 

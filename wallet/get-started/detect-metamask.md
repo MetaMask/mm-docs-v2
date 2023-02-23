@@ -97,5 +97,5 @@ module.exports = {
 ```
 :::
 
-Make sure to run `npx webpack` again upon any changes to `index.js`.
+Run `npx webpack` again upon any changes to `index.js`.
 See [Webpack's Getting Started guide](https://webpack.js.org/guides/getting-started/) for more information.

@@ -15,10 +15,10 @@ access the user's accounts using the
 
 When accessing a user's accounts:
 
-- You should **only** initiate a connection request in response to direct user action, such as
+- **Only** initiate a connection request in response to direct user action, such as
   selecting a [connect button](#create-a-connect-button).
-- You should **always** disable the connect button while the connection request is pending.
-- You should **never** initiate a connection request on page load.
+- **Always** disable the connect button while the connection request is pending.
+- **Never** initiate a connection request on page load.
 
 :::tip
 You can also [use MetaMask SDK](../how-to/use-sdk/index.md) to enable a reliable, secure, and
