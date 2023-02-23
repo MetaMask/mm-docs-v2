@@ -16,11 +16,11 @@ In the [example project script](set-up-dev-environment.md#example), the followin
 user's network and when the user changes networks:
 
 ```javascript title="index.js"
-const chainId = await ethereum.request({ method: 'eth_chainId' });
+const chainId = await window.ethereum.request({ method: 'eth_chainId' });
 
-ethereum.on('chainChanged', handleChainChanged);
+window.ethereum.on('chainChanged', handleChainChanged);
 
-function handleChainChanged(_chainId) {
+function handleChainChanged(chainId) {
   // We recommend reloading the page, unless you must do otherwise.
   window.location.reload();
 }

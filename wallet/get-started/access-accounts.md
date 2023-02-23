@@ -55,8 +55,7 @@ ethereumButton.addEventListener('click', () => {
 // MetaMask rejects any additional requests while the first is still
 // pending.
 async function getAccount() {
-  const accounts = await ethereum
-    .request({ method: 'eth_requestAccounts' })
+  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
     .catch((err) => {
       if (err.code === 4001) {
         // EIP-1193 userRejectedRequest error
@@ -95,8 +94,7 @@ accounts and detects when the user changes accounts:
 
 ```javascript title="index.js"
 let currentAccount = null;
-ethereum
-  .request({ method: 'eth_accounts' })
+window.ethereum.request({ method: 'eth_accounts' })
   .then(handleAccountsChanged)
   .catch((err) => {
     // Some unexpected error.
@@ -108,7 +106,7 @@ ethereum
 // Note that this event is emitted on page load.
 // If the array of accounts is non-empty, you're already
 // connected.
-ethereum.on('accountsChanged', handleAccountsChanged);
+window.ethereum.on('accountsChanged', handleAccountsChanged);
 
 // eth_accounts always returns an array.
 function handleAccountsChanged(accounts) {

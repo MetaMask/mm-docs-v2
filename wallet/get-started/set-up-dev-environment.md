@@ -87,11 +87,11 @@ function startApp(provider) {
 /* Handle chain (network) and chainChanged (per EIP-1193) */
 /**********************************************************/
 
-const chainId = await ethereum.request({ method: 'eth_chainId' });
+const chainId = await window.ethereum.request({ method: 'eth_chainId' });
 
-ethereum.on('chainChanged', handleChainChanged);
+window.ethereum.on('chainChanged', handleChainChanged);
 
-function handleChainChanged(_chainId) {
+function handleChainChanged(chainId) {
   window.location.reload();
 }
 
@@ -100,14 +100,13 @@ function handleChainChanged(_chainId) {
 /***********************************************************/
 
 let currentAccount = null;
-ethereum
-  .request({ method: 'eth_accounts' })
+window.ethereum.request({ method: 'eth_accounts' })
   .then(handleAccountsChanged)
   .catch((err) => {
     console.error(err);
   });
 
-ethereum.on('accountsChanged', handleAccountsChanged);
+window.ethereum.on('accountsChanged', handleAccountsChanged);
 
 function handleAccountsChanged(accounts) {
   if (accounts.length === 0) {
@@ -130,8 +129,7 @@ ethereumButton.addEventListener('click', () => {
 });
 
 async function getAccount() {
-  const accounts = await ethereum
-    .request({ method: 'eth_requestAccounts' })
+  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' })
     .catch((err) => {
       if (err.code === 4001) {
         console.log('Please connect to MetaMask.');
