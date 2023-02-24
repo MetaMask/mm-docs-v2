@@ -1,14 +1,19 @@
-name: Publish prod branch docs to GitHub Pages
+name: Publish Prod Docs
+description: Deploys to the `latest` folder in gh-pages with what is currently on `main`.
 
 on:
-  push:
-    branches: prod
+  workflow_dispatch: # Manually triggered
 
 jobs:
   publish-to-gh-pages:
-    name: Publish docs to `latest` directory of `gh-pages` branch
-    permissions:
-      contents: write
-    uses: ./.github/workflows/publish-docs.yml
-    with:
-      destination_dir: latest
+    steps:
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Publish docs to `latest` directory of `gh-pages` branch
+        permissions:
+          contents: write
+        uses: ./.github/workflows/publish-docs.yml
+        with:
+          destination_dir: latest
