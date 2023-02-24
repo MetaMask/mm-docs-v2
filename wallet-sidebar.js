@@ -2,7 +2,7 @@
 
 /** @type {import('@docusaurus/plugin-content-docs').SidebarsConfig} */
 const sidebar = {
-  apiSidebar: [
+  walletSidebar: [
     "index",
     {
       type: "category",
@@ -11,10 +11,10 @@ const sidebar = {
       collapsed: false,
       items: [
         "get-started/set-up-dev-environment",
-        "get-started/run-test-network",
+        "get-started/run-development-network",
         "get-started/detect-metamask",
-        "get-started/access-account",
-        "get-started/log-in-users",
+        "get-started/detect-network",
+        "get-started/access-accounts",
       ],
     },
     {
