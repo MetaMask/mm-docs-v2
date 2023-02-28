@@ -18,8 +18,7 @@ You can use the following RPC methods to request cryptographic signatures from u
 Read more about [the history of the signing methods](../concepts/signing-methods.md).
 
 :::caution
-[`eth_sign`](../concepts/signing-methods.md#ethsign) is deprecated because the signatures aren't
-human-readable.
+[`eth_sign`](../concepts/signing-methods.md#ethsign) is deprecated.
 :::
 
 :::note
@@ -32,7 +31,7 @@ sign data using an unsupported method, in which case we recommend using your sta
 ## Use eth_signTypedData_v4
 
 `eth_signTypedData_v4` provides the most human-readable signatures that are efficient to process on-chain.
-It follows the [EIP-712](https://eips.ethereum.org/EIPS/eip-712) standard to allow users to sign
+It follows the [EIP-712](https://eips.ethereum.org/EIPS/eip-712) specification to allow users to sign
 typed structured data that can be verified on-chain.
 It renders the structured data as usefully as possible to the user (for example, displaying known
 account names in place of addresses).
@@ -205,7 +204,7 @@ It's often used for signature challenges that are authenticated on a web server,
 Some other signers implement `personal_sign` as `eth_sign`, because the Go Ethereum client changed
 the behavior of their `eth_sign` method.
 Because MetaMask supports existing applications, MetaMask implements both `personal_sign` and `eth_sign`.
-You might need to check with the signers you support to see what method they use for a given implementation.
+You might need to check what method your supported signers use for a given implementation.
 
 :::caution important
 - Don't use this method to display binary data, because the user wouldn't be able to understand what
