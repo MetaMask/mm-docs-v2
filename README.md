@@ -11,7 +11,7 @@ All documentation content is located in the `wallet` and `snaps` directories.
 
 ## Contribution workflow
 
-The documentation contribution workflow involves proposing changes by creating
+The MetaMask documentation contribution workflow involves proposing changes by creating
 [branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches)
 and
 [pull requests (PRs)](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
@@ -24,7 +24,7 @@ To contribute changes:
     [create a new issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue)
     describing the content issue you'd like to address.
     Make sure no one else is assigned to the issue, and assign yourself to it.
-    If you don't have permission to assign yourself to it, you can leave a comment on the issue.
+    If you don't have permission to assign yourself to it, leave a comment on the issue.
 
 2. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
     this repository to your computer.
@@ -35,26 +35,27 @@ To contribute changes:
 
 3. [Create and checkout a topic branch](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging),
     naming it appropriately.
-    We recommend using the issue number and a short description, which is a reminder to fix only one
-    issue in a PR.
-    For example, `183-doc-cli-option`.
+    We recommend including the issue number and a short description in the branch name (for example,
+    `183-doc-cli-option`), which is a reminder to fix only one issue in a PR.
 
     ```bash
     git checkout -b <ISSUE-NUM>-<ISSUE-DESC>
     ```
+
+    > **Tip:** You can use a Git client such as [Fork](https://fork.dev/) instead of the command line.
 
 4. Open this repository in a text editor of your choice (for example,
     [VS Code](https://code.visualstudio.com/)) and make your changes.
     Refer to the [style guide](#style-guide) and [Markdown guide](#markdown-guide) when making
     documentation changes.
 
-    > **Note:** If you add a new documentation page, make sure to edit the `wallet-sidebar.js` or
-      `snaps-sidebar.js` file to [add the page to the sidebar](https://docusaurus.io/docs/sidebar/items).
+    > **Note:** If you add a new documentation page, make sure to edit `wallet-sidebar.js` or
+    `snaps-sidebar.js` to [add the page to the sidebar](https://docusaurus.io/docs/sidebar/items).
 
 5. [Preview your changes locally](#preview-locally) to check that the changes render correctly.
 
-6. Add and commit your changes, using a clear commit message that briefly describes your changes.
-   Push your changes to your remote fork (usually named origin).
+6. Add and commit your changes, briefly describing your changes in the commit message.
+    Push your changes to the remote origin.
 
     ```bash
     git add *
@@ -62,90 +63,112 @@ To contribute changes:
     git push origin
     ```
 
-### Preview builds
+7. On [this repository on GitHub](https://github.com/MetaMask/mm-docs-v2), you’ll see a banner
+    prompting you to create a PR with your recent changes.
+    Create a PR, describing your changes in detail.
+    [Link the issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue)
+    that your PR fixes by adding the following to the description:
 
-Generate a preview build of a PR by making a comment starting with `@metamaskbot publish-preview`.
-The contents of the PR are published as a preview, then linked in a PR comment.
+    ```text
+    fixes #<ISSUE-NUM>
+    ```
 
-Note that this feature is only available for branches on this repository.
-If you're working from a fork, you must build locally to preview your work.
+8. Generate a preview build of your PR by adding a PR comment starting with `@metamaskbot publish-preview`.
+    MetaMask Bot publishes the PR as a site preview, then links it in a PR comment.
+    This allows reviewers to easily preview the changes made in your PR.
+
+9. Specific reviewers are automatically requested when you submit a PR.
+    You can request additional reviewers in the right sidebar of your PR – for example, the original
+    issue raiser.
+    Make any required changes to your PR based on reviewer feedback, repeating steps 4–6.
+
+10. After your PR is approved by two reviewers, all checks have passed, and your branch has no
+    conflicts with the main branch, you can merge your PR.
+    If you don't have merge access, a maintainer will merge your PR for you.
+    You can delete the topic branch after your PR is merged.
 
 ### Preview locally
 
-- Install [Node.js](https://nodejs.org) version 16.
-  - If you're using [nvm](https://github.com/creationix/nvm#installation) (recommended) running
+As a prerequisite, make sure you have the following installed:
+
+- [Node.js](https://nodejs.org) version 16+
+  - If you're using [nvm](https://github.com/creationix/nvm#installation) (recommended), running
     `nvm use` automatically chooses the right Node.js version for you.
-- Install [Yarn v3](https://yarnpkg.com/getting-started/install).
-- Run `yarn install` to install dependencies and run any required post-install scripts.
+- [Yarn](https://yarnpkg.com/getting-started/install) version 3
+  - Run `yarn install` to install dependencies and run any required post-install scripts.
 
-Run locally
-
-`yarn start`
+Preview your changes locally by running `yarn start` in the documentation repository.
 
 ## Style guide
 
-See the Microsoft style guide.
+The MetaMask documentation follows the
+[ConsenSys documentation style guide](https://docs-template.consensys.net/getting-started/style-guide)
+and the [Microsoft Writing Style Guide](https://learn.microsoft.com/en-us/style-guide/welcome/).
+Refer to those guides for any questions on writing style.
 
 ## Markdown guide
 
-### Tabs
+Docusaurus is powered by [MDX](https://mdxjs.com/), an extension to
+[Markdown](https://www.markdownguide.org/) that allows you to use JavaScript in your documentation content.
+See the [Docusaurus documentation](https://docusaurus.io/docs/markdown-features) on how to use its
+Markdown and MDX features.
 
-Tabs are documented here: https://docusaurus.io/docs/markdown-features/tabs
+> **Tip:** [Admonitions](https://docusaurus.io/docs/markdown-features/admonitions),
+[tabs](https://docusaurus.io/docs/markdown-features/tabs), and
+[code blocks](https://docusaurus.io/docs/markdown-features/code-blocks) are frequently used in the
+MetaMask documentation.
 
-#### Markdown in tabs
+The following sections describe features that aren't documented in the Docusaurus documentation.
 
-One thing that's not documented is how to properly do Markdown inside tabs.
-For example, to properly embed a list inside a tab item, one has to skip lines around the JSX tags,
-and un-indent the list.
-Otherwise, the four spaces are mistaken as the start of a pre-formatted block:
+### Code inside tabs
 
-```jsx
+The simplest way to add code or Markdown inside [tabs](https://docusaurus.io/docs/markdown-features/tabs)
+is to un-indent the content and tags, and add blank lines around the content.
+
+For example:
+
+````jsx
 <Tabs>
-  <TabItem value="apple" label="Apple" default>
+<TabItem value="html" label="HTML">
 
-- This is a markdown apple 🍎
-- This is **meow**
-
-
-  </TabItem> {/* notice **two** skipped lines above*/}
-  <TabItem value="orange" label="Orange">
-    This is an orange 🍊
-  </TabItem>
-  <TabItem value="banana" label="Banana">
-    This is a banana 🍌
-  </TabItem>
-</Tabs>
+```html
+<!-- HTML code block -->
 ```
+
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+
+```javascript
+// JavaScript code block
+```
+
+</TabItem>
+<TabItem value="markdown" label="Markdown">
+
+- This is an example Markdown list.
+- This is **bold** and *italicized* text.
+
+</TabItem>
+</Tabs>
+````
 
 ### Live code blocks
 
-Rather than implementing our own live code blocks, we use the
-[`remark-codesandbox`](https://github.com/kevin940726/remark-codesandbox/) Remark plugin.
-This allows us to define a code block to be loaded live in a CodeSandbox iframe, by adding a meta to
-the code block, such as ` ```javascript codesandbox=vanilla`
+The [`remark-codesandbox`](https://github.com/kevin940726/remark-codesandbox/) Remark plugin allows
+you to define a code block to be loaded live in a CodeSandbox iframe.
+This enhances the documentation by keeping the code blocks versioned and in the codebase, while
+using the power of CodeSandbox to showcase any example with any dependency.
 
-This allows us to keep our code blocks versioned and in our codebase, while giving us the full power
-of CodeSandbox to showcase any example we want, with any dependency we want.
+Define a live code block by adding a `codesandbox` key to the code block.
+For example:
 
-The plugin allows for simple codeblocks where the content of the block replaces the CodeSandbox
-entry point, or more complex examples that can be loaded directly from the filesystem, by using
-`codesandbox=file:./example-folder`, as detailed in the plugin's documentation.
-
-## Design guide
-
-In this repository, we use design tokens [implemented here](https://github.com/MetaMask/design-tokens).
-These design tokens are available as CSS variables, which makes it easy for developers to use them
-in their code.
-
-By using design tokens, we ensure consistency in the design of the Metamask user interface across
-different platforms and devices.
-To use the design tokens in your code, simply reference the CSS variables in your styles.
-
-For example, to use the primary color of the Metamask design, you would use the following CSS code:
-
-```css
-color: var(--color-text-default);
+````jsx
+```javascript codesandbox=vanilla
+// JavaScript live code block
 ```
+````
 
-You can refer to all design tokens in the
-[design-tokens](https://github.com/MetaMask/design-tokens/blob/main/src/css/design-tokens.css) repository.
+`remark-codesandbox` allows for simple code blocks where the content of the block replaces the
+CodeSandbox entry point, and more complex code blocks that can be loaded directly from the
+filesystem, as detailed in
+[the plugin's documentation](https://github.com/kevin940726/remark-codesandbox/#documentation).
