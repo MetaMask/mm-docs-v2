@@ -58,7 +58,7 @@ See
 Since the top-level struct type's name and the `domain.name` are presented to the user prominently
 in the confirmation, consider your contract name, the top-level struct name, and the struct keys to
 be a user-facing security interface.
-Make sure your contract is as readable as possible to the user.
+Ensure your contract is as readable as possible to the user.
 :::
 
 ### Example
