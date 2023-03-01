@@ -6,7 +6,8 @@ technical documentation.
 
 All documentation content is located in the `wallet` and `snaps` directories.
 
-> This documentation site is in alpha and is published temporarily at
+> **Important:** This is an alpha version of the new documentation.
+The site is published temporarily at
 [metamask.github.io/mm-docs-v2/staging](https://metamask.github.io/mm-docs-v2/staging/).
 
 ## Contribution workflow
@@ -67,11 +68,7 @@ To contribute changes:
     prompting you to create a PR with your recent changes.
     Create a PR, describing your changes in detail.
     [Link the issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/linking-a-pull-request-to-an-issue)
-    that your PR fixes by adding the following to the description:
-
-    ```text
-    fixes #<ISSUE-NUM>
-    ```
+    that your PR fixes by adding `fixes #<ISSUE-NUM>` to the PR description.
 
 8. Generate a preview build of your PR by adding a PR comment starting with `@metamaskbot publish-preview`.
     MetaMask Bot publishes the PR as a site preview, then links it in a PR comment.
@@ -154,10 +151,10 @@ For example:
 
 ### Live code blocks
 
-The [`remark-codesandbox`](https://github.com/kevin940726/remark-codesandbox/) Remark plugin allows
-you to define a code block to be loaded live in a CodeSandbox iframe.
+The [`remark-codesandbox`](https://github.com/kevin940726/remark-codesandbox/) plugin allows you to
+define a code block to be loaded live in a CodeSandbox iframe.
 This enhances the documentation by keeping the code blocks versioned and in the codebase, while
-using the power of CodeSandbox to showcase any example with any dependency.
+using CodeSandbox to showcase any example with any dependency.
 
 Define a live code block by adding a `codesandbox` key to the code block.
 For example:
@@ -170,5 +167,7 @@ For example:
 
 `remark-codesandbox` allows for simple code blocks where the content of the block replaces the
 CodeSandbox entry point, and more complex code blocks that can be loaded directly from the
-filesystem, as detailed in
-[the plugin's documentation](https://github.com/kevin940726/remark-codesandbox/#documentation).
+filesystem.
+See the
+[`remark-codesandbox` documentation](https://github.com/kevin940726/remark-codesandbox/#documentation)
+for more information.
