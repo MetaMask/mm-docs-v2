@@ -4,23 +4,63 @@ This is the new MetaMask developer documentation repository.
 It's built on [Docusaurus](https://docusaurus.io/), a static site generator purpose-built for
 technical documentation.
 
+All documentation content is located in the `wallet` and `snaps` directories.
+
 > This documentation site is in alpha and is published temporarily at
 [metamask.github.io/mm-docs-v2/staging](https://metamask.github.io/mm-docs-v2/staging/).
 
-## Contribute
+## Contribution workflow
 
-All the documentation is in the form of Markdown files located in the `wallet` and `snaps` directories.
-To add a new document:
+The documentation contribution workflow involves proposing changes by creating
+[branches](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-branches)
+and
+[pull requests (PRs)](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests)
+on this repository.
+This facilitates open contributions, testing, and peer review.
 
-1. Search for an existing issue.
-2. Clone this repository to your computer.
-3. Create a topic branch.
-4. In a text editor, create the `.md` file in an appropriate location in the `wallet` or `snaps` directory, and add
-   your content.
-   Edit the `wallet-sidebar.js` or `snaps-sidebar.js` file to add the document to its appropriate
-   place in the sidebar.
-5. Preview your changes locally.
-6. C
+To contribute changes:
+
+1. Search for an [existing issue](https://github.com/MetaMask/mm-docs-v2/issues) to work on, or
+    [create a new issue](https://docs.github.com/en/issues/tracking-your-work-with-issues/creating-an-issue)
+    describing the content issue you'd like to address.
+    Make sure no one else is assigned to the issue, and assign yourself to it.
+    If you don't have permission to assign yourself to it, you can leave a comment on the issue.
+
+2. [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
+    this repository to your computer.
+
+    ```bash
+    git clone https://github.com/MetaMask/mm-docs-v2.git
+    ```
+
+3. [Create and checkout a topic branch](https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging),
+    naming it appropriately.
+    We recommend using the issue number and a short description, which is a reminder to fix only one
+    issue in a PR.
+    For example, `183-doc-cli-option`.
+
+    ```bash
+    git checkout -b <ISSUE-NUM>-<ISSUE-DESC>
+    ```
+
+4. Open this repository in a text editor of your choice (for example,
+    [VS Code](https://code.visualstudio.com/)) and make your changes.
+    Refer to the [style guide](#style-guide) and [Markdown guide](#markdown-guide) when making
+    documentation changes.
+
+    > **Note:** If you add a new documentation page, make sure to edit the `wallet-sidebar.js` or
+      `snaps-sidebar.js` file to [add the page to the sidebar](https://docusaurus.io/docs/sidebar/items).
+
+5. [Preview your changes locally](#preview-locally) to check that the changes render correctly.
+
+6. Add and commit your changes, using a clear commit message that briefly describes your changes.
+   Push your changes to your remote fork (usually named origin).
+
+    ```bash
+    git add *
+    git commit -m "<COMMIT-MESSAGE>"
+    git push origin
+    ```
 
 ### Preview builds
 
