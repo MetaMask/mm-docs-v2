@@ -32,9 +32,9 @@ Non-MetaMask providers may also set this property to `true`.
 window.ethereum.isConnected(): boolean;
 ```
 
-Returns `true` if the provider is connected to the current chain, and `false` otherwise.
+Returns `true` if the provider is connected to the current chain.
 
-If the provider isn't connected, the page must be reloaded for connection to be re-established.
+If the provider isn't connected, the page must be reloaded to re-establish the connection.
 See the [`connect`](#connect) and [`disconnect`](#disconnect) events for more information.
 
 :::note
@@ -176,7 +176,7 @@ interface ConnectInfo {
 window.ethereum.on('connect', handler: (connectInfo: ConnectInfo) => void);
 ```
 
-The provider emits this event when it becomes able to submit RPC requests to a chain.
+The provider emits this event when it's first able to submit RPC requests to a chain.
 We recommend listening to this event and using the
 [`window.ethereum.isConnected()`](#windowethereumisconnected--) provider method to determine when
 the provider is connected.
