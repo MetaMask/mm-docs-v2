@@ -21,9 +21,12 @@ This page describes additional important steps when developing a snap.
 When developing a website that depends on Snaps, you need to know whether the user has MetaMask
 Flask installed.
 
-Use the [`@metamask/detect-provider`](https://npmjs.com/package/@metamask/detect-provider) package's
+We recommend calling the
 [`web3_clientVersion`](https://metamask.github.io/api-playground/api-documentation/#web3_clientVersion)
-API method as follows:
+MetaMask RPC method to obtain this information.
+The following example uses the
+[`@metamask/detect-provider`](https://npmjs.com/package/@metamask/detect-provider) package to get
+the provider object from MetaMask first:
 
 ```js
 import detectEthereumProvider from '@metamask/detect-provider';

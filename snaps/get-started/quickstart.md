@@ -1,3 +1,7 @@
+---
+description: Get started quickly using the Snaps template.
+---
+
 # Snaps quickstart
 
 Get started with Snaps using the
@@ -61,13 +65,13 @@ You can customize your snap by editing `index.ts` in the `packages/snap/src` fol
 [`snap_confirm`](../reference/rpc-api.md#snap_confirm) method to display a custom confirmation screen:
 
 ```ts
-import { OnRpcRequestHandler } from '@metamask/snap-types';
+import { OnRpcRequestHandler } from '@metamask/snaps-types';
 import { getMessage } from './message';
 
 export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
   switch (request.method) {
     case 'hello':
-      return wallet.request({
+      return snap.request({
         method: 'snap_confirm',
         params: [
           {

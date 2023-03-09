@@ -1,8 +1,12 @@
+---
+description: Snaps exports reference
+---
+
 # Snaps exports
 
 A snap can export the following functions.
 
-## `onRpcRequest`
+## onRpcRequest
 
 To communicate with dapps and other snaps, the snap must implement its own JSON-RPC API by exposing
 an exported function called `onRpcRequest`.
@@ -11,8 +15,8 @@ the following parameters.
 
 :::tip Does my snap need to have an RPC API?
 No, that's up to you!
-If your snap can do something useful without receiving and responding to JSON-RPC requests, then you
-can skip exporting `onRpcRequest`.
+If your snap can do something useful without receiving and responding to JSON-RPC requests, such as
+providing [transaction insights](#ontransaction), then you can skip exporting `onRpcRequest`.
 However, if you want to do something such as manage the user's keys for a particular protocol and
 create a dapp that sends transactions for that protocol via your snap, for example, you must
 specify an RPC API.
@@ -44,7 +48,7 @@ type RpcHandlerReturn = Promise<unknown> | unknown;
 #### TypeScript
 
 ```typescript
-import { OnRpcRequestHandler } from '@metamask/snap-types';
+import { OnRpcRequestHandler } from '@metamask/snaps-types';
 
 export const onRpcRequest: OnRpcRequestHandler = async ({
   origin,
@@ -74,7 +78,7 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
 };
 ```
 
-## `onTransaction`
+## onTransaction
 
 If the snap wants to provide transaction insights before a user signs a transaction, the snap must
 export a function called `onTransaction`.
@@ -105,24 +109,26 @@ interface OnTransactionArgs {
 ### Returns
 
 ```typescript
+import { Component } from '@metamask/snaps-ui';
+
 type OnTransactionHandlerReturn = Promise<OnTransactionResponse>;
 
 interface OnTransactionResponse {
-  insights: { [key: string]: unknown };
+  content: Component;
+  content: Component | null;
 }
 ```
 
-- `onTransactionResponse` - The `insights` object returned by the snap is displayed alongside the
-  confirmation for the transaction that `onTransaction` was called with.
-  Keys and values are displayed in the order received, with each key rendered as a title and each
-  value rendered as a string.
+- `onTransactionResponse` - The `content` object returned by the snap is displayed using
+  [Custom UI](./snaps-concepts.html#custom-ui) alongside the confirmation for the transaction that
+  `onTransaction` was called with.
 
 ### Examples
 
 #### TypeScript
 
 ```typescript
-import { OnTransactionHandler } from "@metamask/snap-types";
+import { OnTransactionHandler } from "@metamask/snaps-types";
 
 export const onTransaction: OnTransactionHandler = async ({
   transaction,
@@ -145,7 +151,7 @@ module.exports.onTransaction = async ({
 };
 ```
 
-## `onCronjob`
+## onCronjob
 
 If a snap wants to run periodic actions for the user, the snap must export a function called `onCronjob`.
 This function is called at the specified times with the specified payloads defined in the
@@ -171,19 +177,17 @@ interface onCronjobArgs {
 #### TypeScript
 
 ```typescript
-import { OnCronjobHandler } from '@metamask/snap-types';
+import { OnCronjobHandler } from '@metamask/snaps-types';
 
 export const onCronjob: OnCronjobHandler = async ({ request }) => {
   switch (request.method) {
     case 'exampleMethodOne':
-      return wallet.request({
+      return snap.request({
         method: 'snap_notify',
-        params: [
-          {
-            type: 'inApp',
-            message: `Hello, world!`,
-          },
-        ],
+        params: {
+          type: 'inApp',
+          message: `Hello, world!`,
+        },
       });
 
     default:
@@ -198,14 +202,12 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 module.exports.onCronjob = async ({ request }) => {
   switch (request.method) {
     case 'exampleMethodOne':
-      return wallet.request({
+      return snap.request({
         method: 'snap_notify',
-        params: [
-          {
-            type: 'inApp',
-            message: `Hello, world!`,
-          },
-        ],
+        params: {
+          type: 'inApp',
+          message: `Hello, world!`,
+        },
       });
 
     default:
