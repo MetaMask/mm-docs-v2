@@ -32,6 +32,8 @@ For example, you can:
 - Control non-EVM accounts and assets in MetaMask using [`snaps_getBip44Entropy`](reference/rpc-api.md#snap_getbip44entropy).
 - Populate MetaMask's pre-transaction window with custom transaction insights using [`onTransaction`](reference/exports.md#ontransaction).
 - Schedule periodic actions using [`onCronjob`](reference/exports.md#oncronjob).
+- [Display custom UI](how-to/use-custom-ui.md) within MetaMask using a set of pre-defined components,
+  including inline Markdown.
 
 ## Questions?
 

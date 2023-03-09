@@ -120,7 +120,7 @@ interface OnTransactionResponse {
 ```
 
 - `onTransactionResponse` - The `content` object returned by the snap is displayed using
-  [Custom UI](./snaps-concepts.html#custom-ui) alongside the confirmation for the transaction that
+  [custom UI](../how-to/use-custom-ui.md) alongside the confirmation for the transaction that
   `onTransaction` was called with.
 
 ### Examples
@@ -128,26 +128,41 @@ interface OnTransactionResponse {
 #### TypeScript
 
 ```typescript
-import { OnTransactionHandler } from "@metamask/snaps-types";
+import { OnTransactionHandler } from '@metamask/snap-types';
+import { panel, heading, text } from '@metamask/snaps-ui';
 
 export const onTransaction: OnTransactionHandler = async ({
   transaction,
   chainId,
 }) => {
   const insights = /* Get insights */;
-  return { insights };
+  return {
+    content: panel([
+      heading('My Transaction Insights'),
+      text('Here are the insights:'),
+      ...(insights.map((insight) => text(insight.value)))
+    ])
+  };
 };
 ```
 
 #### JavaScript
 
 ```js
+import { panel, heading, text } from '@metamask/snaps-ui';
+
 module.exports.onTransaction = async ({
   transaction,
   chainId,
 }) => {
   const insights = /* Get insights */;
-  return { insights };
+  return {
+    content: panel([
+      heading('My Transaction Insights'),
+      text('Here are the insights:'),
+      ...(insights.map((insight) => text(insight.value)))
+    ])
+  };
 };
 ```
 
