@@ -78,7 +78,7 @@ const sidebar = {
             "reference/cli/subcommands",
           ],
         },
-        "reference/permissions.md",
+        "reference/permissions",
       ],
     },
   ],
