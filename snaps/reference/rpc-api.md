@@ -420,7 +420,7 @@ const dogecoinNode = await snap.request({
 });
 
 // Next, create an instance of a SLIP-10 node for the Dogecoin node.
-const dogecoinSlip10Node = await SLIP10Node.fromJson(dogecoinNode);
+const dogecoinSlip10Node = await SLIP10Node.fromJSON(dogecoinNode);
 
 // m / 44' / 3' / 0'
 const accountKey0 = await dogecoinSlip10Node.derive(["bip32:0'"]);
@@ -673,13 +673,13 @@ The value stored in state if the operation is `get`, and `null` otherwise.
 // Persist some data.
 await snap.request({
   method: 'snap_manageState',
-  params: ['update', { hello: 'world' }],
+  params: { operation: 'update', newState: { hello: 'world' } },
 });
 
 // At a later time, get the data stored.
 const persistedData = await snap.request({
   method: 'snap_manageState',
-  params: ['get'],
+  params: { operation: 'get' },
 });
 
 console.log(persistedData);
@@ -688,7 +688,7 @@ console.log(persistedData);
 // If there's no need to store data anymore, clear it out.
 await snap.request({
   method: 'snap_manageState',
-  params: ['clear'],
+  params: { operation: 'clear' },
 });
 ```
 
@@ -715,12 +715,10 @@ An object containing the contents of the notification:
 ```javascript
 await snap.request({
   method: 'snap_notify',
-  params: [
-    {
+  params: {
       type: 'inApp',
       message: `Hello, world!`,
-    },
-  ],
+  },
 });
 ```
 

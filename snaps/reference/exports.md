@@ -93,6 +93,8 @@ An object containing:
 - `transaction` - The raw transaction payload.
 - `chainId` - The [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md)
   chain ID.
+- `transactionOrigin` - The transaction origin if
+  [`allowTransactionOrigin`](permissions.md#endowment--transaction-insight) is set to `true`.
 
 ### Returns
 
@@ -111,6 +113,7 @@ import { panel, heading, text } from '@metamask/snaps-ui';
 export const onTransaction: OnTransactionHandler = async ({
   transaction,
   chainId,
+  transactionOrigin,
 }) => {
   const insights = /* Get insights */;
   return {
@@ -132,6 +135,7 @@ import { panel, heading, text } from '@metamask/snaps-ui';
 module.exports.onTransaction = async ({
   transaction,
   chainId,
+  transactionOrigin,
 }) => {
   const insights = /* Get insights */;
   return {

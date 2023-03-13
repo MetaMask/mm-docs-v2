@@ -73,10 +73,11 @@ The log output is only visible in the extension background process console.
 If you're using a Chromium browser, use the following steps to inspect the background process and
 view its console:
 
-1. Go to `chrome://extensions`
-1. Find the MetaMask extension
-1. Select **Details**
-1. Under **Inspect Views**, select `background.html`
+1. Go to `chrome://extensions`.
+2. Find the MetaMask extension.
+3. Select **Details**.
+4. Toggle **Developer mode** on in the top right corner.
+5. Under **Inspect views**, select `background.html`.
 
 ## Publish your snap
 

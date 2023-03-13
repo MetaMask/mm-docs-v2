@@ -126,10 +126,17 @@ To provide transaction insights, a snap must request the `endowment:transaction-
 This permission grants a snap read-only access to raw transaction payloads, before they're accepted
 for signing by the user, by exporting the [`onTransaction`](../reference/exports.md#ontransaction) method.
 
+This permission requires an object with an `allowTransactionOrigin` property to signal if the snap
+should pass the `transactionOrigin` property as part of the `onTransaction` parameters.
+This property represents the transaction initiator origin.
+The default is `false`.
+
 Specify this permission in the manifest file as follows:
 
 ```json
 "initialPermissions": {
-  "endowment:transaction-insight": {}
+  "endowment:transaction-insight": {
+    "allowTransactionOrigin": true
+  }
 },
 ```
