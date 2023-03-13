@@ -530,7 +530,8 @@ An object representing the
 [BIP-44](https://github.com/bitcoin/bips/blob/master/bip-0044.mediawiki) `coin_type` HD tree node
 and containing its corresponding key material:
 
-- `coin_type` - The BIP-44 `coin_type` value of the node.
+- `coin_type` - The BIP-44 [coin type](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
+  value of the node.
 - `depth` - The 0-indexed BIP-44 path depth of the node.
   Since this is a `coin_type` node, the depth is `2`.
 - `privateKey` - The hexadecimal-encoded string representation of the private key for the node.

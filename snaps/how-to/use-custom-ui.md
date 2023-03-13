@@ -4,22 +4,19 @@ description: Use a custom user interface.
 
 # Use custom UI
 
-Custom UI is a UI definition system used by various Snaps features.
-It enables Snaps to describe a rich UI to be displayed in some contexts.
+The [`snap_dialog`](../reference/rpc-api.md#snapdialog) RPC method and
+[`onTransaction`](../reference/exports.md#ontransaction) exported method use the
+`@metamask/snaps-ui` module to display custom user interface (UI) components.
 
-Custom UI is used to describe custom user interfaces in
-[`snap_dialog`](../reference/rpc-api.md#snapdialog), and in the
-[`onTransaction`](../reference/exports.md#ontransaction) export.
+To use custom UI, first install `@metamask/snaps-ui` using the following command:
 
-## How to use it
-
-To use Custom UI, you must first install the `@metamask/snaps-ui` NPM package:
-
-```sh
+```bash
 yarn add @metamask/snaps-ui
 ```
 
-Then, whenever you're required to return a Custom UI, import the components you need from the package, and build your UI with them. For example:
+Then, whenever you're required to return a custom UI component, import the components from the
+package and build your UI with them.
+For example:
 
 ```javascript
 import { panel, heading, text } from '@metamask/snaps-ui';
@@ -68,7 +65,8 @@ const content = panel([
 
 ### heading
 
-Outputs a heading. Useful for panel titles.
+Outputs a heading.
+This is useful for [panel](#panel) titles.
 
 ```javascript
 import { panel, heading, text } from '@metamask/snaps-ui';
@@ -125,5 +123,5 @@ const content = text('This is a simple text UI');
 
 ## Markdown
 
-Text-based components accept a very small subset of Markdown, that is, `**bold**` and `_italic_`.
-There are plans to increase this subset in the future.
+Text-based components accept a very small subset of Markdown: `**bold**` and `_italic_`.
+This subset will be increased in the future.
