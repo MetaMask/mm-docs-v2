@@ -4,10 +4,11 @@ description: Manage users' private keys.
 
 # Manage keys
 
-The Snaps API contains functionality that allows you to manage users' private keys, with their approval.
-This capability comes with great responsibility on part of the developer: Misplaced or stolen
+The [Snaps JSON-RPC API](../reference/rpc-api.md) allows you to manage users' private keys with
+their approval.
+This comes with great responsibility on part of the developer: Misplaced or stolen
 private keys may lead to a complete loss of funds for users of the snap.
-Below are some guidelines to help snap developers assess the feasibility and sanity of their snaps.
+The following are guidelines to help Snaps developers assess the feasibility and sanity of their snaps.
 
 ## Key management guidelines
 

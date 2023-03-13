@@ -1,3 +1,7 @@
+---
+description: Develop, test, and publish a snap.
+---
+
 # Develop a snap
 
 A snap can extend the dapp-facing [MetaMask JSON-RPC API](../../wallet/reference/rpc-api) in

@@ -1,3 +1,7 @@
+---
+description: Solve common issues.
+---
+
 # Troubleshoot
 
 This page describes common issues you may encounter when developing a snap, and how to resolve them.

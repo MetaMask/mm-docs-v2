@@ -2,21 +2,22 @@
 description: Snaps exports reference
 ---
 
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
 # Snaps exports
 
-A snap can export the following functions.
+A snap can export the following methods.
 
 ## onRpcRequest
 
-To communicate with dapps and other snaps, the snap must implement its own JSON-RPC API by exposing
-an exported function called `onRpcRequest`.
-Whenever the snap receives a JSON-RPC request, the `onRpcRequest` handler function is called with
-the following parameters.
+To communicate with dapps and other snaps, a snap must implement its own JSON-RPC API by exporting
+`onRpcRequest`.
+Whenever the snap receives a JSON-RPC request, the `onRpcRequest` handler method is called.
 
-:::tip Does my snap need to have an RPC API?
-No, that's up to you!
+:::caution important
 If your snap can do something useful without receiving and responding to JSON-RPC requests, such as
-providing [transaction insights](#ontransaction), then you can skip exporting `onRpcRequest`.
+providing [transaction insights](#ontransaction), you can skip exporting `onRpcRequest`.
 However, if you want to do something such as manage the user's keys for a particular protocol and
 create a dapp that sends transactions for that protocol via your snap, for example, you must
 specify an RPC API.
@@ -24,28 +25,19 @@ specify an RPC API.
 
 ### Parameters
 
-- `RpcHandlerArgs` - The origin and the JSON-RPC request.
+An object containing:
 
-```typescript
-import { JsonRpcRequest } from '@metamask/types';
-
-interface RpcHandlerArgs = {
-  origin: string;
-  request: JsonRpcRequest<unknown[] | { [key: string]: unknown }>;
-};
-```
+- `origin` - The origin as a string.
+- `request` - The JSON-RPC request.
 
 ### Returns
 
-```typescript
-type RpcHandlerReturn = Promise<unknown> | unknown;
-```
+A promise containing the return of the implemented method.
 
-`RpcHandlerReturn` - A promise containing the return of the implemented method.
+### Example
 
-### Examples
-
-#### TypeScript
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
 
 ```typescript
 import { OnRpcRequestHandler } from '@metamask/snaps-types';
@@ -64,7 +56,8 @@ export const onRpcRequest: OnRpcRequestHandler = async ({
 };
 ```
 
-#### JavaScript
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
 
 ```js
 module.exports.onRpcRequest = async ({ origin, request }) => {
@@ -78,54 +71,38 @@ module.exports.onRpcRequest = async ({ origin, request }) => {
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ## onTransaction
 
-If the snap wants to provide transaction insights before a user signs a transaction, the snap must
-export a function called `onTransaction`.
-Whenever there's a contract interaction, and a transaction is submitted via the extension, this
-function is called.
-The raw unsigned transaction payload is passed to the `onTransaction` handler function.
+To provide transaction insights before a user signs a transaction, a snap must export `onTransaction`.
+Whenever there's a contract interaction, and a transaction is submitted using the MetaMask
+extension, MetaMask calls this method.
+MetaMask passes the raw unsigned transaction payload to the `onTransaction` handler method.
 
 :::note
-For the extension to call the `onTransaction` method of the snap, you must request the
-[`endowment:transaction-insight`](../how-to/request-permissions.md#endowmenttransaction-insight)
-permission.
+For MetaMask to call the snap's `onTransaction` method, you must request the
+[`endowment:transaction-insight`](permissions.md#endowment--transaction-insight) permission.
 :::
 
 ### Parameters
 
-- `onTransactionArgs` - The raw transaction payload and the
-  [CAIP-2 chain ID](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md).
-  For more details on the transaction object see
-  [SIP-3](https://metamask.github.io/SIPs/SIPS/sip-3#appendix-i-ethereum-transaction-objects).
+An object containing:
 
-```typescript
-interface OnTransactionArgs {
-  transaction: Record<string, unknown>;
-  chainId: string;
-}
-```
+- `transaction` - The raw transaction payload.
+- `chainId` - The [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-2.md)
+  chain ID.
 
 ### Returns
 
-```typescript
-import { Component } from '@metamask/snaps-ui';
+A content object displayed using [custom UI](../how-to/use-custom-ui.md), alongside the confirmation
+for the transaction that `onTransaction` was called with.
 
-type OnTransactionHandlerReturn = Promise<OnTransactionResponse>;
+### Example
 
-interface OnTransactionResponse {
-  content: Component;
-  content: Component | null;
-}
-```
-
-- `onTransactionResponse` - The `content` object returned by the snap is displayed using
-  [custom UI](../how-to/use-custom-ui.md) alongside the confirmation for the transaction that
-  `onTransaction` was called with.
-
-### Examples
-
-#### TypeScript
+<Tabs>
+<TabItem value="typescript" label="TypeScript">
 
 ```typescript
 import { OnTransactionHandler } from '@metamask/snap-types';
@@ -146,7 +123,8 @@ export const onTransaction: OnTransactionHandler = async ({
 };
 ```
 
-#### JavaScript
+</TabItem>
+<TabItem value="JavaScript">
 
 ```js
 import { panel, heading, text } from '@metamask/snaps-ui';
@@ -166,30 +144,28 @@ module.exports.onTransaction = async ({
 };
 ```
 
+</TabItem>
+</Tabs>
+
 ## onCronjob
 
-If a snap wants to run periodic actions for the user, the snap must export a function called `onCronjob`.
-This function is called at the specified times with the specified payloads defined in the
-[`endowment:cronjob`](../how-to/request-permissions.md#endowmentcronjob) permission.
+To run periodic actions for the user (cron jobs), a snap must export `onCronjob`.
+This method is called at the specified times with the specified payloads defined in the
+[`endowment:cronjob`](permissions.md#endowment--cronjob) permission.
 
 :::note
-For the extension to call the `onCronjob` method of the snap, you must request the
-[`endowment:cronjob`](../how-to/request-permissions.md#endowmentcronjob) permission.
+For MetaMask to call the snap's `onCronjob` method, you must request the
+[`endowment:cronjob`](permissions.md#endowment--cronjob) permission.
 :::
 
 ### Parameters
 
-- `onCronjobArgs` - Exclusively containing an RPC request specified in the `endowment:cronjob` permission.
+An object containing an RPC request specified in the `endowment:cronjob` permission.
 
-```typescript
-interface onCronjobArgs {
-  request: JsonRpcRequest<unknown[] | { [key: string]: unknown }>;
-}
-```
+### Example
 
-### Examples
-
-#### TypeScript
+<Tabs>
+<TabItem value="TypeScript">
 
 ```typescript
 import { OnCronjobHandler } from '@metamask/snaps-types';
@@ -211,7 +187,8 @@ export const onCronjob: OnCronjobHandler = async ({ request }) => {
 };
 ```
 
-#### JavaScript
+</TabItem>
+<TabItem value="JavaScript">
 
 ```js
 module.exports.onCronjob = async ({ request }) => {
@@ -229,3 +206,7 @@ module.exports.onCronjob = async ({ request }) => {
       throw new Error('Method not found.');
   }
 };
+```
+
+</TabItem>
+</Tabs>

@@ -34,7 +34,7 @@ Each snap is an object containing:
 - `permissionName` - The name of the permission used to invoke the snap.
 - `version` - The version of the snap.
 
-:::tip example
+#### Example
 
 <Tabs>
 <TabItem value="javascript" label="JavaScript">
@@ -69,8 +69,6 @@ console.log(result);
 </TabItem>
 </Tabs>
 
-:::
-
 ### wallet_invokeSnap
 
 Invokes the specified JSON-RPC method of the specified snap.
@@ -93,7 +91,7 @@ An object containing:
 
 Result of the snap method call.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 const result = await ethereum.request({
@@ -108,8 +106,6 @@ const result = await ethereum.request({
 
 console.log(result); // In this example, the result is a boolean.
 ```
-
-:::
 
 ### wallet_requestSnaps
 
@@ -134,7 +130,7 @@ An object containing the snaps to request permission to communicate with.
 
 An object mapping the IDs of installed snaps to either their metadata or an error if installation fails.
 
-:::tip example
+#### Example
 
 <Tabs>
 <TabItem value="javascript" label="JavaScript">
@@ -181,8 +177,6 @@ try {
 </TabItem>
 </Tabs>
 
-:::
-
 ## Restricted methods
 
 You must
@@ -213,7 +207,7 @@ An object containing the contents of the confirmation.
 
 `true` if the user accepted the confirmation, and `false` otherwise.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 const result = await snap.request({
@@ -233,8 +227,6 @@ if (result === true) {
   // Do not take the action
 }
 ```
-
-:::
 
 ### snap_dialog
 
@@ -258,7 +250,7 @@ An object containing the contents of the alert dialog:
 - `type` - The type of dialog (`'Alert'`).
 - `content` - The content of the alert, as a [custom UI](../how-to/use-custom-ui.md) component.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 import { panel, text, heading } from '@metamask/snaps-ui';
@@ -277,8 +269,6 @@ await snap.request({
 // Code that should execute after the alert has been acknowledged
 ```
 
-:::
-
 #### Confirmation dialog
 
 Displays a confirmation that can be accepted or rejected.
@@ -294,7 +284,7 @@ An object containing the contents of the confirmation dialog:
 
 `true` if the confirmation was accepted, `false` otherwise.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 import { panel, text, heading } from '@metamask/snaps-ui';
@@ -315,8 +305,6 @@ if (result === true) {
 }
 ```
 
-:::
-
 #### Prompt dialog
 
 Displays a prompt where the user can enter a text response.
@@ -333,7 +321,7 @@ An object containing the contents of the prompt dialog:
 
 The text entered by the user.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 import { panel, text, heading } from '@metamask/snaps-ui';
@@ -352,8 +340,6 @@ const walletAddress = await snap.request({
 
 // `walletAddress` will be a string containing the address entered by the user
 ```
-
-:::
 
 ### snap_getBip32Entropy
 
@@ -399,7 +385,7 @@ its corresponding key material:
 - `chainCode` - The chain code of the node.
 - `curve` - The name of the curve used by the node: `'ed25519'` or `'secp256k1'`.
 
-:::tip example
+#### Example
 
 <Tabs>
 <TabItem value="manifest" label="Manifest file">
@@ -448,8 +434,6 @@ const accountKey1 = await dogecoinSlip10Node.derive(["bip32:1'"]);
 </TabItem>
 </Tabs>
 
-:::
-
 ### snap_getBip32PublicKey
 
 Gets the [BIP-32](https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki) public key for the
@@ -474,7 +458,7 @@ An object containing:
 
 The public key as hexadecimal string.
 
-:::tip example
+#### Example
 
 <Tabs>
 <TabItem value="manifest" label="Manifest file">
@@ -513,8 +497,6 @@ console.log(dogecoinPublicKey);
 
 </TabItem>
 </Tabs>
-
-:::
 
 ### snap_getBip44Entropy
 
@@ -557,7 +539,7 @@ and containing its corresponding key material:
 - `path` - A human-readable representation of the BIP-44 HD tree path of the node.
   Since this is a `coin_type` node, the path is of the form `m / 44' / coin_type'`.
 
-:::tip example
+#### Example
 
 <Tabs>
 <TabItem value="manifest" label="Manifest file">
@@ -607,8 +589,6 @@ const addressKey1 = await deriveDogecoinAddress(1);
 </TabItem>
 </Tabs>
 
-:::
-
 ### snap_getEntropy
 
 Gets a deterministic 256-bit entropy value, specific to the snap and the user's account.
@@ -636,7 +616,7 @@ An object containing:
 
 The entropy as a hexadecimal string.
 
-:::tip example
+#### Example
 
 <Tabs>
 <TabItem value="manifest" label="Manifest file">
@@ -668,8 +648,6 @@ console.log(entropy);
 </TabItem>
 </Tabs>
 
-:::
-
 ### snap_manageState
 
 Allows the snap to persist up to 100 MB of data to disk and retrieve it at will.
@@ -688,7 +666,7 @@ An object containing:
 
 The value stored in state if the operation is `get`, and `null` otherwise.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 // Persist some data.
@@ -713,8 +691,6 @@ await snap.request({
 });
 ```
 
-:::
-
 ### snap_notify
 
 Displays a notification in MetaMask or natively in the browser.
@@ -733,7 +709,7 @@ An object containing the contents of the notification:
   the user.
 - `message` - A message to show in the notification.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 await snap.request({
@@ -746,8 +722,6 @@ await snap.request({
   ],
 });
 ```
-
-:::
 
 ### wallet\_snap\_*
 
@@ -777,7 +751,7 @@ The JSON-RPC request object to send to the invoked snap.
 
 The result of the snap method call.
 
-:::tip example javascript
+#### Example
 
 ```javascript
 const result = await ethereum.request({
@@ -789,5 +763,3 @@ const result = await ethereum.request({
 
 console.log(result); // In this example, the result is a boolean.
 ```
-
-:::
