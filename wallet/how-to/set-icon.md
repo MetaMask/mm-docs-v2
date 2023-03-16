@@ -1,3 +1,7 @@
+---
+description: Set an icon for your site.
+---
+
 # Set an icon
 
 When your site makes a login request to a MetaMask user, MetaMask may render a modal that displays

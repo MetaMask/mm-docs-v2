@@ -1,3 +1,7 @@
+---
+description: Learn about the MetaMask onboarding library.
+---
+
 # Onboarding library
 
 As an Ethereum enabled site developer, sending users offsite to install MetaMask presents challenges.

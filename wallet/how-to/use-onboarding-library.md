@@ -1,4 +1,9 @@
-# Use onboarding library
+---
+title: Use the onboarding library
+description: Use the MetaMask onboarding library.
+---
+
+# Use the MetaMask onboarding library
 
 Use the MetaMask [onboarding library](../concepts/onboarding-library.md) to simplify the experience
 of onboarding new users to MetaMask.
