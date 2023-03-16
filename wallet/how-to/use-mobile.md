@@ -11,7 +11,7 @@ other primary browsers, mobile, or desktop.
 
 To use MetaMask Mobile:
 
-- Ensure your site is compatible with the [MetaMask Ethereum provider API](../reference/provider-api.md).
+- Ensure your dapp is compatible with the [MetaMask Ethereum provider API](../reference/provider-api.md).
 - Include MetaMask Mobile as a listed wallet in your dapp, and link to open the MetaMask Mobile app
   (if installed) or to go to the app store (if not yet installed).
   We recommend adding a **Connect with MetaMask** button and [using deeplinks](#use-deeplinks).

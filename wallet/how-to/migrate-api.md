@@ -18,7 +18,7 @@ To understand why MetaMask made these changes, please see
 
 :::note
 If you're a MetaMask user attempting to use a legacy Ethereum website that hasn't migrated to the
-new API, please see the [MetaMask legacy Web3 extension](#using-the-metamask-legacy-web3-extension).
+new API, please see the [MetaMask legacy Web3 extension](#use-the-metamask-legacy-web3-extension).
 
 Except for such legacy websites, no action is required for MetaMask users.
 :::
