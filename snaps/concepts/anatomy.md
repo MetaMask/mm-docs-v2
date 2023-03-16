@@ -90,7 +90,7 @@ await window.ethereum.request({
 // Invoke the "hello" RPC method exposed by the snap
 const hello = await window.ethereum.request({
   method: 'wallet_invokeSnap',
-  params: ['npm:hello-snap', { method: 'hello' }],
+  params: { snapId: 'npm:hello-snap', request: { method: 'hello' } },
 });
 
 console.log(hello); // 'world!'
