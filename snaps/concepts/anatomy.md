@@ -38,10 +38,10 @@ Still, we recommend
 
 This page examines the major components of a snap:
 
-- [The source code](#source-code)
-- [The manifest file](#manifest-file)
-- [The configuration file](#configuration-file)
-- [The bundle file](#bundle-file)
+- [The source code](#source-code) contains the primary code of the snap.
+- [The manifest file](#manifest-file) tells MetaMask important information about the snap.
+- [The configuration file](#configuration-file) specifies configuration options for the snap.
+- [The bundle file](#bundle-file) is the output file of the published snap.
 
 ## Source code
 
@@ -49,7 +49,7 @@ If you're familiar with JavaScript or TypeScript development, developing a snap 
 to you.
 Consider this simple snap, `hello-snap`:
 
-```javascript
+```typescript title="index.ts"
 module.exports.onRpcRequest = async ({ origin, request }) => {
   switch (request.method) {
     // Expose a "hello" RPC method to dapps

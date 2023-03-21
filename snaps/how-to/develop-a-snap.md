@@ -22,8 +22,8 @@ This page describes additional important steps when developing a snap.
 
 ## Detect the user's MetaMask version
 
-When developing a website that depends on Snaps, you need to know whether the user has MetaMask
-Flask installed.
+When developing a website that depends on Snaps, you need to know whether the user has
+[MetaMask Flask](../get-started/install-snaps.md#install-metamask-flask) installed.
 
 We recommend calling the
 [`web3_clientVersion`](https://metamask.github.io/api-playground/api-documentation/#web3_clientVersion)
