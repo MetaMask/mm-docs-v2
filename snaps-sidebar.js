@@ -53,7 +53,9 @@ const sidebar = {
       label: "Tutorials",
       link: { type: "generated-index" },
       items: [
-        "tutorials/tutorials",
+        "tutorials/gas-fee",
+        "tutorials/address-book",
+        "tutorials/transaction-insights",
       ],
     },
     {
