@@ -16,7 +16,7 @@ Before developing a snap, it's important to understand:
 - [The Snaps execution environment](../concepts/execution-environment.md).
 
 You can [get started quickly using the Snaps template](../get-started/quickstart.md) or follow a
-[tutorial](../tutorials).
+[tutorial](../category/tutorials).
 
 This page describes additional important steps when developing a snap.
 
