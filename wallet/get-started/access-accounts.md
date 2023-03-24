@@ -82,13 +82,12 @@ async function getAccount() {
 </TabItem>
 </Tabs>
 
-:::caution important
-At the moment, MetaMask returns at most one account in the array.
-The array may return more than one account in the future.
-:::
+:::note
+MetaMask currently returns at most one account in the `accounts` array.
+The array may contain more than one account in the future.
 
-:::tip
-To retrieve the full list of accounts for which the user has permitted access, use the [`wallet_getPermissions`](../reference/rpc-api#wallet_getpermissions) method.
+To retrieve the full list of accounts for which the user has permitted access, use the
+[`wallet_getPermissions`](../reference/rpc-api#wallet_getpermissions) RPC method.
 :::
 
 ## Handle accounts
@@ -132,7 +131,9 @@ function handleAccountsChanged(accounts) {
 ```
 
 :::note
-The first account in the array will always be considered the user's "selected" account. The array may return more than one account in the future.
+MetaMask currently returns at most one account in the `accounts` array.
+The array may contain more than one account in the future.
+The first account in the array will always be considered the user's "selected" account.
 :::
 
 
