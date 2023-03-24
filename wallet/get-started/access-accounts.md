@@ -135,5 +135,3 @@ MetaMask currently returns at most one account in the `accounts` array.
 The array may contain more than one account in the future.
 The first account in the array will always be considered the user's "selected" account.
 :::
-
-
