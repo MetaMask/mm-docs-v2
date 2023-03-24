@@ -141,8 +141,8 @@ You can now view site in the browser.
   http://localhost:8000/
 ```
 
-Your default browser should open and navigate to this address, but if not, open Google Chrome or
-Firefox (with MetaMask Flask installed) and navigate to [`localhost:8000`](http://localhost:8000/).
+Your default browser should open and navigate to this address, but if not, open
+[`localhost:8000`](http://localhost:8000/) in your browser (with MetaMask Flask installed).
 A page like the following displays:
 
 ![Gas fee test dapp](../assets/gas-fee-tutorial-1.png)
@@ -181,7 +181,7 @@ You can also update the fields in `snap.manifest.json` to match your custom snap
   If you decided to publish your snap to npm, update the `location` to its published location.
 
 Similarly, you should update the `name`, `version`, `description`, and `repository` sections of
-`package.json` even if you don't plan to publish your snap to npm.
+`/packages/snap/package.json` even if you don't plan to publish your snap to npm.
 
 :::note
 The `version` field in `snap.manifest.json` inherits the `version` field from `package.json`.
