@@ -1,13 +1,12 @@
 name: Publish a preview build
 
 on:
-  issue_comment:
-    types: created
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   is-fork-pull-request:
-    name: Determine whether this issue comment was on a pull request from a fork
-    if: ${{ github.event.issue.pull_request && startsWith(github.event.comment.body, '@metamaskbot publish-preview') }}
+    name: Determine whether this pull request is from a fork
     runs-on: ubuntu-latest
     outputs:
       IS_FORK: ${{ steps.is-fork.outputs.IS_FORK }}
@@ -18,7 +17,7 @@ jobs:
         run: echo "IS_FORK=$(gh pr view --json isCrossRepository --jq '.isCrossRepository' "${PR_NUMBER}" )" >> "$GITHUB_OUTPUT"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
 
   get-commit-hash:
     name: Get the commit hash for the commit being previewed
@@ -34,7 +33,7 @@ jobs:
         run: gh pr checkout "${PR_NUMBER}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
       - name: Get commit SHA
         id: commit-sha
         run: echo "COMMIT_SHA=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
@@ -62,7 +61,9 @@ jobs:
     steps:
       - name: Get branch name
         id: branch-name
-        run: echo "BRANCH_NAME=$(echo ${{ github.event.issue.pull_request.head.ref }} | sed 's/refs\/heads\///')" >> "$GITHUB_OUTPUT"
+        run: echo "BRANCH_NAME=$(echo $BRANCH | sed 's/refs\/heads\///')" >> "$GITHUB_OUTPUT"
+        env:
+          BRANCH: ${{ github.ref_name }}
     outputs:
       BRANCH_NAME: ${{ steps.branch-name.outputs.BRANCH_NAME }}
 
@@ -81,4 +82,4 @@ jobs:
         env:
           COMMENT_BODY: "Preview published: [preview/${{ needs.get-commit-hash.outputs.BRANCH_NAME }}](https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/preview/${{ needs.get-commit-hash.outputs.BRANCH_NAME }}/)"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.issue.number }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
