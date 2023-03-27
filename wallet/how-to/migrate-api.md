@@ -7,6 +7,8 @@ new API, please see the [MetaMask legacy Web3 extension](#using-the-metamask-leg
 Except for such legacy websites, no action is required for MetaMask users.
 :::
 
+RANDOM CHANGE!!!
+
 In January 2021, MetaMask made a number of breaking changes to the
 [provider API](../reference/provider-api.md), and removed the injected `window.web3`.
 These changes are live on all platforms as of version:
