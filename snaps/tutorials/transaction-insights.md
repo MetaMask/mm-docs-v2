@@ -38,8 +38,8 @@ using the command line:
 git clone git@github.com:<your-username>/transaction-insights-snap.git
 ```
 
-To initialize your development environment with the required dependencies, in your project directory,
-enter the command `yarn`.
+To initialize your development environment with the required dependencies, in your project
+directory, enter the command `yarn`.
 
 ### 2. Enable transaction insights and the Ethereum provider
 

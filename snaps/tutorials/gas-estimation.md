@@ -2,7 +2,7 @@
 description: Create a snap that estimates gas fees.
 ---
 
-# Create a gas estimates snap
+# Create a gas estimation snap
 
 This tutorial walks you through creating a snap that estimates gas fees.
 The snap is based on the
@@ -25,17 +25,17 @@ a confirmation dialog.
 Use the Snaps template by
 [creating a new repository from the template](https://github.com/MetaMask/template-snap-monorepo/generate).
 
-Give your project a new name, such as `gas-estimates-snap`.
+Give your project a new name, such as `gas-estimation-snap`.
 
 [Clone the repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
 using the command line:
 
 ```bash
-git clone git@github.com:<your-username>/gas-estimates-snap.git
+git clone git@github.com:<your-username>/gas-estimation-snap.git
 ```
 
-To initialize your development environment with the required dependencies, in your project directory,
-enter the command `yarn`.
+To initialize your development environment with the required dependencies, in your project
+directory, enter the command `yarn`.
 
 ### 2. Set a custom icon
 
@@ -160,7 +160,7 @@ To build and test your snap:
 
 <p align="center">
 
-![Gas estimates dialog](../assets/gas-estimates.png)
+![Gas estimation dialog](../assets/gas-estimation.png)
 
 </p>
 
