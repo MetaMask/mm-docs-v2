@@ -152,10 +152,6 @@ const config = {
                 href: "https://discord.gg/consensys",
               },
               {
-                label: "MetaMask SDK Discord",
-                href: "https://discord.gg/N3jSkZbYm6",
-              },
-              {
                 label: "Documentation requests",
                 href: "https://github.com/MetaMask/mm-docs-v2/issues/new",
               },
