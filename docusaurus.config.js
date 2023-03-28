@@ -28,7 +28,7 @@ const config = {
   },
 
   scripts: [
-    {src: 'https://plausible.io/js/script.js', defer: true,'data-domain': 'docs.metamask.io'}
+    { src: "https://plausible.io/js/script.js", defer: true, "data-domain": "docs.metamask.io" },
   ],
 
   presets: [
