@@ -58,7 +58,7 @@ function handleEthereum() {
 }
 ```
 
-The extension provider is always available by the time your code is executed.
+The extension provider is always available when your code executes.
 Because of platform limitations, the mobile provider may not be injected until later in the page
 lifecycle, so the MetaMask provider dispatches the event `ethereum#initialized` on `window` when
 it's fully initialized.
@@ -95,7 +95,7 @@ To test your dapp's integration with MetaMask Mobile:
 
 1. Configure your development server to run on your host machine's local IP address `192.168.x.x`,
     or `0.0.0.0`.
-1. Make sure your testing device uses the same WiFi connection as the machine hosting the server.
+1. Ensure your testing device uses the same WiFi connection as the machine hosting the server.
 1. In the MetaMask Mobile web browser, navigate to your website at `http://YOUR_LOCAL_IP:PORT`.
 
 :::note
