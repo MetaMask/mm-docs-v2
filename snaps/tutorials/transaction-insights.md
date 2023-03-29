@@ -15,8 +15,7 @@ insights in the MetaMask transaction window.
 - [Snaps installed](../get-started/install-snaps.md)
 
 - An account on your MetaMask Flask instance with testnet ETH.
-  For example, you can use Alchemy's [Goerli](https://goerlifaucet.com/) or
-  [Sepolia](https://sepoliafaucet.com/) faucet to get testnet ETH.
+  For example, you can use [Infura's Sepolia faucet](https://www.infura.io/faucet) to get Sepolia ETH.
 
 - A text editor (for example, [VS Code](https://code.visualstudio.com/))
 
