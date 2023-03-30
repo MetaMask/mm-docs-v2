@@ -66,12 +66,9 @@ system, see [EIP-2255](https://eips.ethereum.org/EIPS/eip-2255).
 
 :::tip EIP-1102
 This method is specified by [EIP-1102](https://eips.ethereum.org/EIPS/eip-1102).
-It's equivalent to the deprecated [`ethereum.enable()`](provider-api.md#ethereumenable-deprecated)
-provider API method.
 
 Under the hood, it calls [`wallet_requestPermissions`](#wallet_requestpermissions) for the
-`eth_accounts` permission.
-Since `eth_accounts` is currently the only permission, this method is all you need for now.
+`eth_accounts` permission, which is currently the only existing permission in stable MetaMask.
 :::
 
 #### Returns
