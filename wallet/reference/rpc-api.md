@@ -6,24 +6,26 @@ description: MetaMask Ethereum JSON-RPC API reference
 
 MetaMask uses the [`window.ethereum.request(args)`](provider-api.md#windowethereumrequest--args-)
 provider method to wrap a JSON-RPC API.
-The API is based on an interface exposed by all Ethereum clients, along with a growing number of
-methods that other wallets may or may not support.
+The API contains standard Ethereum JSON-RPC API methods and MetaMask-specific methods.
 
+:::tip MetaMask API playground
 The RPC methods are documented in the interactive
 [MetaMask JSON-RPC API Playground](https://metamask.github.io/api-playground/api-documentation/).
-Methods in the playground may have the following tags:
+:::
 
-- **MetaMask** - These methods behave in ways specific to MetaMask, and may not be supported by
-  other wallets.
+Methods in the API playground may have the following tags:
+
+- **MetaMask** - These methods behave in ways specific to MetaMask, and may or may not be supported
+  by other wallets.
   Some of these methods are documented in more detail on this page.
 - **Restricted** - These methods are [restricted](#restricted-methods), which require requesting
   permission using [`wallet_requestPermissions`](#walletrequestpermissions).
 - **Mobile** - These methods are only available on MetaMask Mobile.
 
-For more information on the standard Ethereum JSON-RPC API methods, see the
+For more information on the standard Ethereum RPC methods, see the
 [Ethereum wiki](https://eth.wiki/json-rpc/API#json-rpc-methods).
 
-:::caution
+:::note
 All RPC method requests can return errors.
 Make sure to handle errors for every call to
 [`window.ethereum.request(args)`](provider-api.md#windowethereumrequest--args-).
@@ -51,6 +53,10 @@ allows you to access the user's Ethereum accounts.
 More restricted methods will be added in the future.
 
 ## Unrestricted methods
+
+The following are some MetaMask-specific unrestricted methods.
+For the full list of MetaMask JSON-RPC API methods, see the
+[API playground](https://metamask.github.io/api-playground/api-documentation/).
 
 ### eth_requestAccounts
 
