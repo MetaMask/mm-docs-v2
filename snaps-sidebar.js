@@ -34,6 +34,8 @@ const sidebar = {
       items: [
         "how-to/develop-a-snap",
         "how-to/request-permissions",
+        "how-to/manage-keys",
+        "how-to/use-custom-ui",
         "how-to/troubleshoot",
       ],
     },
@@ -53,7 +55,8 @@ const sidebar = {
       label: "Tutorials",
       link: { type: "generated-index" },
       items: [
-        "tutorials/tutorials",
+        "tutorials/gas-estimation",
+        "tutorials/transaction-insights",
       ],
     },
     {
@@ -76,6 +79,7 @@ const sidebar = {
             "reference/cli/subcommands",
           ],
         },
+        "reference/permissions",
       ],
     },
   ],

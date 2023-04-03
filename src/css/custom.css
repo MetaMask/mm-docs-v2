@@ -68,3 +68,23 @@
     var(--ifm-color-emphasis-100) 100%
   );
 }
+
+h1 {
+  font-size: 32px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
+h4 {
+  font-size: 16px;
+}
+
+.navbar__title {
+  font-weight: 500;
+}

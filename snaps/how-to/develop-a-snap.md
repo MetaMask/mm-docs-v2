@@ -1,3 +1,7 @@
+---
+description: Develop, test, and publish a snap.
+---
+
 # Develop a snap
 
 A snap can extend the dapp-facing [MetaMask JSON-RPC API](../../wallet/reference/rpc-api) in
@@ -12,18 +16,21 @@ Before developing a snap, it's important to understand:
 - [The Snaps execution environment](../concepts/execution-environment.md).
 
 You can [get started quickly using the Snaps template](../get-started/quickstart.md) or follow a
-[tutorial](../tutorials).
+[tutorial](../category/tutorials).
 
 This page describes additional important steps when developing a snap.
 
 ## Detect the user's MetaMask version
 
-When developing a website that depends on Snaps, you need to know whether the user has MetaMask
-Flask installed.
+When developing a website that depends on Snaps, you need to know whether the user has
+[MetaMask Flask](../get-started/install-snaps.md#install-metamask-flask) installed.
 
-Use the [`@metamask/detect-provider`](https://npmjs.com/package/@metamask/detect-provider) package's
+We recommend calling the
 [`web3_clientVersion`](https://metamask.github.io/api-playground/api-documentation/#web3_clientVersion)
-API method as follows:
+MetaMask RPC method to obtain this information.
+The following example uses the
+[`@metamask/detect-provider`](https://npmjs.com/package/@metamask/detect-provider) package to get
+the provider object from MetaMask first:
 
 ```js
 import detectEthereumProvider from '@metamask/detect-provider';
@@ -53,7 +60,7 @@ API methods from a web page.
 ## Debug your snap
 
 To debug your snap, use `console.log` and inspect the MetaMask background process.
-You can add your log statements in your source coder and build your snap, or add them directly
+You can add your log statements in your source code and build your snap, or add them directly
 to your snap bundle and use `mm-snap manifest --fix` to update the `shasum` in your snap manifest file.
 The manifest `shasum` must match the contents of your bundle at the time MetaMask fetches your snap.
 
@@ -62,14 +69,16 @@ Because adding logs modifies the snap source code, you must re-install the snap 
 log statement.
 :::
 
-The log output is only visible in the extension background process console.
+The snap log output is only visible in the extension background process console.
 If you're using a Chromium browser, use the following steps to inspect the background process and
 view its console:
 
-1. Go to `chrome://extensions`
-1. Find the MetaMask extension
-1. Select **Details**
-1. Under **Inspect Views**, select `background.html`
+1. Go to `chrome://extensions`.
+2. Toggle **Developer mode** on in the top right corner.
+3. Find MetaMask Flask, and select **Details**.
+4. Under **Inspect views**, select `background.html`.
+
+The log output displays in the console that pops up.
 
 ## Publish your snap
 

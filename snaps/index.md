@@ -4,14 +4,16 @@ title: Introduction
 
 # Extend the functionality of MetaMask using Snaps
 
-:::note
-Snaps is pre-release software.
-:::
-
 Snaps is an open source system that allows anyone to safely extend the functionality of MetaMask,
 creating new web3 end user experiences.
 
 Get started by [installing Snaps](get-started/install-snaps.md).
+
+:::note
+- Snaps is pre-release software.
+- To learn how to integrate your dapp with MetaMask, visit the
+  [MetaMask wallet developer documentation](../wallet).
+:::
 
 ## What is a snap?
 
@@ -26,14 +28,17 @@ modify existing functionalities using the [Snaps JSON-RPC API](reference/rpc-api
 
 For example, you can:
 
-- Display a custom confirmation screen in MetaMask using [`snap_confirm`](reference/rpc-api.md#snap_confirm).
-- Notify users in MetaMask using [`snap_notify`](reference/rpc-api.md#snap_notify).
-- Securely store and manage data on your device using [`snap_mangeState`](reference/rpc-api.md#snap_managestate).
-- Control non-EVM accounts and assets in MetaMask using [`snaps_getBip44Entropy`](reference/rpc-api.md#snap_getbip44entropy).
-- Populate MetaMask's pre-transaction window with custom transaction insights using [`onTransaction`](reference/exports.md#ontransaction).
-- Schedule periodic actions using [`onCronjob`](reference/exports.md#oncronjob).
+- [Display a custom confirmation screen](reference/rpc-api.md#snapdialog) in MetaMask.
+- [Notify users](reference/rpc-api.md#snapnotify) in MetaMask.
+- [Securely store and manage data](reference/rpc-api.md#snapmanagestate) on your device.
+- [Control non-EVM accounts and assets](reference/rpc-api.md#snapgetbip44entropy) in MetaMask.
+- [Provide transaction insights](reference/exports.md#ontransaction) in MetaMask's pre-transaction window.
+- [Schedule periodic actions](reference/exports.md#oncronjob) for your users.
+- [Display custom UI](how-to/use-custom-ui.md) in MetaMask using a set of pre-defined components,
+  including inline Markdown.
 
 ## Questions?
 
-If you have questions or want to propose a new feature, you can interact with the Snaps team and
-community on [GitHub discussions](https://github.com/MetaMask/snaps-skunkworks/discussions).
+If you have questions about using Snaps or want to propose a new feature, you can interact with the
+Snaps team and community on [GitHub discussions](https://github.com/MetaMask/snaps-monorepo/discussions)
+and the Snaps channel on [ConsenSys Discord](https://discord.gg/consensys).
