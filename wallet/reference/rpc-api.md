@@ -40,12 +40,6 @@ If a method is restricted, the caller must request permission to call it using
 Under the hood, permissions are plain, JSON-compatible objects, with fields that are mostly used
 internally by MetaMask.
 
-Unrestricted methods have no corresponding permission, but they might still rely on permissions to
-succeed (for example, the signing methods require calling the restricted
-[`eth_accounts`](https://metamask.github.io/api-playground/api-documentation/#eth_accounts) method),
-or they might require confirmation by the user (for example,
-[`wallet_addEthereumChain`](#walletaddethereumchain)).
-
 Outside of [Snaps restricted methods](../../snaps/reference/rpc-api#restricted-methods), the only
 restricted method is
 [`eth_accounts`](https://metamask.github.io/api-playground/api-documentation/#eth_accounts), which
@@ -53,6 +47,12 @@ allows you to access the user's Ethereum accounts.
 More restricted methods will be added in the future.
 
 ## Unrestricted methods
+
+Unrestricted methods have no corresponding permission, but they might still rely on permissions to
+succeed (for example, the signing methods require calling the restricted
+[`eth_accounts`](https://metamask.github.io/api-playground/api-documentation/#eth_accounts) method),
+or they might require confirmation by the user (for example,
+[`wallet_addEthereumChain`](#walletaddethereumchain)).
 
 The following are some MetaMask-specific unrestricted methods.
 For the full list of MetaMask JSON-RPC API methods, see the
@@ -66,7 +66,7 @@ Use this method to [access a user's accounts](../get-started/access-accounts.md)
 This method is specified by [EIP-1102](https://eips.ethereum.org/EIPS/eip-1102).
 
 :::info
-Under the hood, this method calls [`wallet_requestPermissions`](#walletrequestpermissions) for
+Internally, this method calls [`wallet_requestPermissions`](#walletrequestpermissions) for
 permission to call [`eth_accounts`](https://metamask.github.io/api-playground/api-documentation/#eth_accounts).
 :::
 
