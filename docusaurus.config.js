@@ -27,6 +27,10 @@ const config = {
     locales: ["en"],
   },
 
+  scripts: [
+    { src: "https://plausible.io/js/script.js", defer: true, "data-domain": "docs.metamask.io" },
+  ],
+
   presets: [
     [
       "classic",
@@ -183,12 +187,14 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       navbar: {
-        title: "MetaMask docs",
+        title: " │ ‎ Documentation",
         hideOnScroll: true,
         logo: {
           alt: "MetaMask logo",
-          src: "img/metamask-fox.svg",
+          src: "img/metamask-logo.svg",
+          srcDark: "img/metamask-logo-dark.svg",
           href: "/wallet/",
+          width: 150,
         },
         items: [
           {
@@ -207,8 +213,10 @@ const config = {
       footer: {
         logo: {
           alt: "MetaMask logo",
-          src: "img/metamask-fox.svg",
+          src: "img/metamask-logo.svg",
+          srcDark: "img/metamask-logo-dark.svg",
           href: "https://metamask.io/",
+          width: 250,
         },
         links: [
           {
