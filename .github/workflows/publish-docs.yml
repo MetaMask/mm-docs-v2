@@ -4,7 +4,6 @@ on:
   workflow_call:
     inputs:
       destination_dir:
-        required: true
         type: string
       ref:
         required: false
