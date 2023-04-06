@@ -11,7 +11,7 @@ Some methods are only callable by snaps, and some are only callable by dapps.
 
 ## Unrestricted methods
 
-Snaps and dapps don't need to request permission to call unrestricted methods.
+You can call unrestricted methods without requesting permission to do so.
 
 ### wallet_getSnaps
 
@@ -707,35 +707,27 @@ An object containing the contents of the notification:
 await snap.request({
   method: 'snap_notify',
   params: {
-      type: 'inApp',
-      message: `Hello, world!`,
+    type: 'inApp',
+    message: 'Hello, world!',
   },
 });
 ```
 
 ### wallet_snap
 
-Invokes the specified JSON-RPC method of the snap corresponding to the specified permission name.
-The snap must be installed and the caller must have permission to communicate with the snap, or the
-request is rejected.
-
-Snaps are responsible for implementing their JSON-RPC API.
-Consult the snap's documentation for available methods, their parameters, and return values.
+Invokes the specified JSON-RPC method of the specified snap.
+A dapp must request permission to call this method using
+[`wallet_requestPermissions`](../../wallet/reference/rpc-api#walletrequestpermissions) in order to
+interact with the specified snap.
 
 This method is only callable by dapps.
 
-:::note
-This is a namespaced method.
-The `*` in the name is always substituted for a string, in this case a snap ID.
-:::
-
-:::tip
-[`wallet_invokeSnap`](#walletinvokesnap) provides a more convenient way of calling this method.
-:::
-
 #### Parameters
 
-The JSON-RPC request object to send to the invoked snap.
+An object containing:
+
+- `snapId` - The ID of the snap to invoke.
+- `request` - The JSON-RPC request object to send to the invoked snap.
 
 #### Returns
 
@@ -745,9 +737,12 @@ The result of the snap method call.
 
 ```javascript
 const result = await ethereum.request({
-  method: 'wallet_snap_npm:@metamask/example-snap',
+  method: 'wallet_snap',
   params: {
-    method: 'hello',
+    snapId: '@metamask/example-snap',
+    request: {
+      method: 'hello',
+    },
   },
 });
 
