@@ -4,7 +4,6 @@ on:
   workflow_call:
     inputs:
       destination_dir:
-        required: true
         type: string
       ref:
         required: false
@@ -17,9 +16,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Ensure `destination_dir` is not empty
-        if: ${{ inputs.destination_dir == '' }}
-        run: exit 1
       - name: Checkout the repository
         uses: actions/checkout@v3
         with:
@@ -39,3 +35,5 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
           destination_dir: ${{ inputs.destination_dir }}
+          keep_files: true
+
