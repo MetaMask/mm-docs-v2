@@ -16,19 +16,19 @@ The following security advice isn't exhaustive.
 
 HTTPS can protect your dapp against attackers who might try to eavesdrop or tamper the communication
 channel between your dapp and your users.
-HTTPS encrypts the data that's transmitted between the web server and the user's browser, making it
+HTTPS encrypts data transmitted between the web server and the user's browser, making it
 difficult for attackers to intercept or modify the data.
 
 To secure your dapp using HTTPS, obtain an SSL/TLS certificate from a trusted certificate authority (CA).
 For example, [Let's Encrypt](https://letsencrypt.org/) offers free SSL/TLS certificates.
 
-Once you have the certificate, install it on your web server.
+Install the certificate it on your web server.
 If you're using a static website hosting service, it might have a default way to enable HTTPS on
 your dapp.
 
 ## Use Content Security Policy
 
-Content Security Policy (CSP) is a security feature that can help protect your dapp against various
+Content Security Policy (CSP) is a security feature that can protect your dapp against various
 types of attacks, such as [cross-site scripting (XSS)](https://owasp.org/www-community/attacks/xss/)
 and [clickjacking](https://owasp.org/www-community/attacks/Clickjacking).
 
