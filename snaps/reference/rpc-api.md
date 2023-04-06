@@ -176,7 +176,7 @@ try {
 For restricted methods callable by snaps, a snap must request permission to call the method in the
 [snap manifest file](../how-to/request-permissions.md).
 For restricted methods callable by dapps, a dapp must request permission to call the method using
-[`wallet_requestPermissions`](../../wallet/reference/rpc-api#walletrequestpermissions).
+[`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions).
 
 ### snap_confirm (deprecated)
 
@@ -717,7 +717,7 @@ await snap.request({
 
 Invokes the specified JSON-RPC method of the specified snap.
 A dapp must request permission to call this method using
-[`wallet_requestPermissions`](../../wallet/reference/rpc-api#walletrequestpermissions) in order to
+[`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions) in order to
 interact with the specified snap.
 
 This method is only callable by dapps.
