@@ -152,7 +152,7 @@ function App() {
   return (
     <div className="App">
       <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider.isMetaMask && 
+      { provider?.isMetaMask && 
         <button>Connect MetaMask</button>
       }
     </div>
@@ -193,7 +193,7 @@ function App() {
   return (
     <div className="App">
       <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider.isMetaMask && wallet.accounts.length < 1 &&
+      { provider?.isMetaMask && wallet.accounts.length < 1 &&
         <button onClick={handleConnect}>Connect MetaMask</button>
       }
       { wallet.accounts.length > 0 &&
@@ -245,7 +245,7 @@ function App() {
   return (
     <div className="App">
       <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider.isMetaMask && wallet.accounts.length < 1 &&
+      { provider?.isMetaMask && wallet.accounts.length < 1 &&
         <button onClick={handleConnect}>Connect MetaMask</button>
       }
       { wallet.accounts.length > 0 &&
@@ -288,10 +288,9 @@ Finally, we need to parse the returned value of the balance and format it into a
 import './App.css'
 import { useState, useEffect } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
-const provider = await detectEthereumProvider()
+let provider = await detectEthereumProvider()
 
 function App() {
-  const isMetaMask = provider ? provider.isMetaMask : false
   const initialState = { accounts: [], balance: "" }
   const [wallet, setWallet] = useState(initialState)
 
@@ -314,12 +313,14 @@ function App() {
   }
 
   function checkConnection() {
-    window.ethereum.request({ method: 'eth_accounts' })
+    if (provider) {
+      window.ethereum.request({ method: 'eth_accounts' })
       .then((accounts: any) => handleAccountChange(accounts))
       .catch(console.error)
+    }
   }
 
-  window.ethereum.on('accountsChanged', handleAccountChange)
+  provider && window.ethereum.on('accountsChanged', handleAccountChange)
 
   async function handleAccountChange(accounts: any) {
     if(accounts.length > 0) {
@@ -338,7 +339,7 @@ function App() {
   return (
     <div className="App">
       <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { isMetaMask && wallet.accounts.length < 1 &&
+      { provider?.isMetaMask && wallet.accounts.length < 1 &&
         <button onClick={handleConnect}>Connect MetaMask</button>
       }
       { wallet.accounts.length > 0 &&
