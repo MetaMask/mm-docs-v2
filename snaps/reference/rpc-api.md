@@ -5,9 +5,9 @@ description: Snaps JSON-RPC API reference
 # Snaps JSON-RPC API
 
 Snaps communicate with MetaMask using the Snaps JSON-RPC API.
-These API methods allow snaps to modify the functionality of MetaMask, and dapps to install and
-communicate with individual snaps.
-Some methods are only callable by snaps, and some are only callable by dapps.
+These API methods allow snaps to modify the functionality of MetaMask, and websites (dapps) to
+install and communicate with individual snaps.
+Some methods are only callable by snaps, and some are only callable by websites.
 
 ## Unrestricted methods
 
@@ -17,7 +17,7 @@ You can call unrestricted methods without requesting permission to do so.
 
 Returns the IDs of the caller's permitted snaps and some relevant metadata.
 
-This method is only callable by dapps.
+This method is only callable by websites.
 
 #### Returns
 
@@ -73,7 +73,7 @@ the request is rejected.
 Snaps are fully responsible for implementing their JSON-RPC API.
 Consult the snap's documentation for available methods, their parameters, and return values.
 
-This method is only callable by dapps.
+This method is only callable by websites.
 
 #### Parameters
 
@@ -115,7 +115,7 @@ If an incompatible version is installed, MetaMask attempts to update the snap to
 that satisfies the requested range.
 The request succeeds if the snap is successfully updated.
 
-This method is only callable by dapps.
+This method is only callable by websites.
 
 #### Parameters
 
@@ -175,7 +175,7 @@ try {
 
 For restricted methods callable by snaps, a snap must request permission to call the method in the
 [snap manifest file](../how-to/request-permissions.md).
-For restricted methods callable by dapps, a dapp must request permission to call the method using
+For restricted methods callable by websites, a website must request permission to call the method using
 [`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions).
 
 ### snap_confirm (deprecated)
@@ -716,11 +716,11 @@ await snap.request({
 ### wallet_snap
 
 Invokes the specified JSON-RPC method of the specified snap.
-A dapp must request permission to call this method using
+A website must request permission to call this method using
 [`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions) in order to
 interact with the specified snap.
 
-This method is only callable by dapps.
+This method is only callable by websites.
 
 #### Parameters
 
