@@ -10,7 +10,7 @@ description: Beyond getting started, working with the MetaMask API and SDK to co
 - [Scaffold a Vite React Project](#scaffold-vite)
 - [Detecting MetaMask](#detecting-metamask)
 - [Connecting to MetaMask](#connecting-to-metamask)
-- [Manage MetaMask State Locally](#manage-metamask-state-locally)
+- [Manage More MetaMask State Locally](#manage-more-metamask-state-locally)
 - [Connect MetaMask via SDK](#Connect-metamask-via-SDK)
 - [Manage MetaMask State Globally](#manage-metamask-state-globally)
 
@@ -249,3 +249,11 @@ In reality, our apps will scale, they will have multiple components and need to 
 In the next section, we will add the users balance and chainId to our state, as they are very important pieces of Metamask wallet state that we want to know about and ensure we have the correct values and know if they change all of the sudden. 
 
 The MetaMask Extension can be considered an app outside of our application, kind of like it's own database of sorts. The MetaMask user could pay for something on another site, send ETH to a friend or use another site to change their chainId and Network. Our applications will need to listen for these changes and update their state accordingly.
+
+## Manage More MetaMask State Locally
+
+In this next section, we will see what it takes to manage the currently connected account's balance and the users currently connected network by chainId. The purpose for this next exercise is to see how complex managing our wallet state can get by just adding balance and chainId to that list of state we want to keep in sync with our app.
+
+Sometimes to really understand how to build an app the right way, so that it can scale, we need to do things the hard way and learn hard lessons.
+
+Two problems we will face in this exercise is how adding additional state complicates our component and how we have cornered ourself into a single component. The work we will have done has helped us to reach our goal, but we will now see how limited we are in sharing this state as our app needs additional components and pages.
