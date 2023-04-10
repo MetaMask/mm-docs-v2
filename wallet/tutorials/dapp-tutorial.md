@@ -257,3 +257,85 @@ In this next section, we will see what it takes to manage the currently connecte
 Sometimes to really understand how to build an app the right way, so that it can scale, we need to do things the hard way and learn hard lessons.
 
 Two problems we will face in this exercise is how adding additional state complicates our component and how we have cornered ourself into a single component. The work we will have done has helped us to reach our goal, but we will now see how limited we are in sharing this state as our app needs additional components and pages.
+
+### Watching The Users Balance
+
+Let's update our current component to also display the connected address's balance. We will need to add more `useState` and additional listeners in order to do simply add this new state to our local component state.
+
+We will need to add a function that will handle updating the state object on accounts changed as we now need to check that connected address's balance after connecting to the accounts.
+
+We will also need to add similar functionality to the `handleConnect` function that the connect button calls.
+
+Finally, we will also need to parse the returned value of the balance and format it into a human readable number that is represented as a string to the user.
+
+```ts
+import { useState, useEffect } from 'react';
+import detectEthereumProvider from '@metamask/detect-provider';
+const provider = await detectEthereumProvider();
+
+function App() {
+  const isMetaMask = provider ? provider.isMetaMask : false;
+  const [wallet, setWallet] = useState({
+    accounts: [],
+    balance: ""
+  })
+
+  useEffect(() => checkConnection(), []);
+
+  const handleConnect = async () => {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    const rawBalance = await window.ethereum!.request({
+      method: "eth_getBalance",
+      params: [accounts[0], "latest"],
+    });
+    let balance = (parseInt(rawBalance) / 1000000000000000000).toFixed(2)
+    setWallet({accounts, balance})
+  }
+
+  function checkConnection() {
+    window.ethereum.request({ method: 'eth_accounts' })
+      .then((accounts: any) => handleAccountChange(accounts))
+      .catch(console.error);
+  }
+
+  window.ethereum.on('accountsChanged', handleAccountChange);
+  async function handleAccountChange(accounts: any) {
+    if(accounts.length > 0) {
+      const rawBalance = await window.ethereum!.request({
+        method: "eth_getBalance",
+        params: [accounts[0], "latest"],
+      });
+      let balance = (parseInt(rawBalance) / 1000000000000000000).toFixed(2)
+      setWallet({accounts, balance})
+    } else {
+      setWallet({accounts: [], balance: "0"})
+    }
+  }
+
+  return (
+    <div className="App">
+      <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
+      { isMetaMask && wallet.accounts.length < 1 &&
+        <button onClick={handleConnect}>Connect MetaMask</button>
+      }
+      { wallet.accounts.length > 0 &&
+        <>
+          <div>Wallet Accounts: {wallet.accounts[0]}</div>
+          <div>Wallet Balance: {wallet.balance}</div>
+        </>
+      }
+    </div>
+  )
+}
+
+export default App;
+```
+
+You can see that our logic is getting more complex, but, we were able to make these changes by adding a new property into our local state, and ensuring that when we update that state that both values are being passed through. As well, we need to fetch our balance once the accounts have already been determined as we need the currently selected account to get it's balance.
+
+Finally we will add the ability to watch the current network's `chainId`.
+
+### Watching the Users Chain
+
