@@ -247,21 +247,31 @@ You can use it to call any [provider API method](../../reference/provider-api.md
 
 ## FAQS
 
-### I can't find the SDK installation option.
+<details>
+
+<summary>I can't find the SDK installation option.</summary>
 
 If you don't see the option to [install the SDK](#2-install-the-sdk-for-unity) in your Unity menu,
 make sure you're on the latest Unity version and that you have no red errors printed in your console.
 This option not appearing is typically due to incorrect editor initialization, which you can
 usually resolve by restarting the editor or updating your Unity version.
 
-### On iOS, why does a popup appear when using a deeplink?
+</details>
+
+<details>
+
+<summary>On iOS, why does a popup appear when using a deeplink?</summary>
 
 When deeplinking, a background service is created to facilitate the communication layer between the
 Unity game and MetaMask.
 On iOS, background services expire after a certain amount of time.
 A notification pops up to let you know the socket connection has expired.
 
-### What does the external dependency manager do?
+</details>
+
+<details>
+
+<summary>What does the external dependency manager do?</summary>
 
 The Unity Jar Resolver is an external dependency manager specifically for Unity projects that use
 external libraries.
@@ -270,9 +280,15 @@ complicated due to differences between the two environments.
 This tool is particularly useful for MetaMask SDK, since Android and iOS need a variety of native
 libraries to facilitate deeplinking and the persistent socket connection.
 
-### Does the SDK increase my compilation time?
+</details>
+
+<details>
+
+<summary>Does the SDK increase my compilation time?</summary>
 
 No.
 If you notice an increased compilation time, it might be related to the ILL2CP pipeline, which can
 take longer to build at compile time.
 The SDK is filled with precompiled libraries to save on runtime compilation.
+
+</details>
