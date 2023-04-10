@@ -11,6 +11,8 @@ description: Beyond getting started, working with the MetaMask API and SDK to co
 - [Detecting MetaMask](#detecting-metamask)
 - [Connecting to MetaMask](#connecting-to-metamask)
 - [Manage More MetaMask State Locally](#manage-more-metamask-state-locally)
+  - [Watch User Balance](#watch-user-balance)
+  - [Watch User Chain](#watch-user-chain)
 - [Connect MetaMask via SDK](#Connect-metamask-via-SDK)
 - [Manage MetaMask State Globally](#manage-metamask-state-globally)
 
@@ -141,7 +143,6 @@ With this, we can update our `src/App.tsx` to:
 
 ```ts
 import './App.css'
-import { useState } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 const provider = await detectEthereumProvider()
@@ -167,7 +168,7 @@ Next we will wire up this button, so that if we have a MetaMask Extension to con
 
 ## Connecting to MetaMask
 
-We've already added the import for React's `useState`. In the next scenario, we will use it to store the state of the wallet as we will have a single property named `accounts` to represent the wallet accounts we have connected to.
+We'll import React's `useState`. In the next scenario, we will use it to store the state of the wallet as we will have a single property named `accounts` to represent the wallet accounts we have connected to.
 
 Update the `src/App.tsx` to:
 
@@ -209,8 +210,7 @@ We have a button that connects to a MetaMask account and displays the balance on
 
 If we can solve these issues by listening to the `accountsChanged` provider, we will also be able to update the connected account in our state if they manually change which account they are connected to in the MetaMask wallet. Remember that a MetaMask user can have multiple accounts in their wallet and switch between them at any time.
 
-
-Let's update out `src/App.tsx` to have some additional logic and a `useEffect`:
+Let's update our `src/App.tsx` with some logic and a `useEffect`:
 
 ```ts
 import './App.css'
@@ -233,12 +233,14 @@ function App() {
   }
 
   function checkConnection() {
-    window.ethereum.request({ method: 'eth_accounts' })
-      .then((accounts: any) => setWallet({accounts}))
+    if (provider) {
+      window.ethereum.request({ method: 'eth_accounts' })
+      .then((accounts: any) => handleAccountChange(accounts))
       .catch(console.error)
+    }
   }
 
-  window.ethereum.on('accountsChanged', (accounts: any) => setWallet({accounts}))
+  provider && window.ethereum.on('accountsChanged', (accounts: any) => setWallet({accounts}))
 
   return (
     <div className="App">
@@ -290,10 +292,8 @@ const provider = await detectEthereumProvider()
 
 function App() {
   const isMetaMask = provider ? provider.isMetaMask : false
-  const [wallet, setWallet] = useState({
-    accounts: [],
-    balance: ""
-  })
+  const initialState = { accounts: [], balance: "" }
+  const [wallet, setWallet] = useState(initialState)
 
   useEffect(() => checkConnection(), [])
 
@@ -305,11 +305,11 @@ function App() {
     const accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     })
-    const rawBalance = await window.ethereum!.request({
+    const balance = await window.ethereum!.request({
       method: "eth_getBalance",
       params: [accounts[0], "latest"],
-    })
-    let balance = formatBalance(rawBalance)
+    }).then((rawBalance:any) => formatBalance(rawBalance))
+
     setWallet({accounts, balance})
   }
 
@@ -323,14 +323,15 @@ function App() {
 
   async function handleAccountChange(accounts: any) {
     if(accounts.length > 0) {
-      const rawBalance = await window.ethereum!.request({
+      const balance = await window.ethereum!.request({
         method: "eth_getBalance",
         params: [accounts[0], "latest"],
-      })
-      let balance = formatBalance(rawBalance)
+      }).then((rawBalance:any) => formatBalance(rawBalance))
+      
       setWallet({accounts, balance})
     } else {
-      setWallet({accounts: [], balance: "0"})
+      // if length 0, user is disconnected
+      setWallet(initialState)
     }
   }
 
