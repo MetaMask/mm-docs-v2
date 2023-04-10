@@ -315,7 +315,7 @@ const config = {
       },
       prism: {
         theme: codeTheme,
-        additionalLanguages: ["csharp"],
+        additionalLanguages: ["csharp","swift"],
       },
     }),
 };
