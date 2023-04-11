@@ -42,6 +42,7 @@ const config = {
           sidebarPath: require.resolve("./wallet-sidebar.js"),
           breadcrumbs: false,
           remarkPlugins: [
+            require("remark-docusaurus-tabs"),
             [remarkCodesandbox, {
               mode: "iframe",
               autoDeploy: process.env.NODE_ENV === "production",
@@ -64,6 +65,9 @@ const config = {
         routeBasePath: "snaps",
         sidebarPath: require.resolve("./snaps-sidebar.js"),
         breadcrumbs: false,
+        remarkPlugins: [
+          require("remark-docusaurus-tabs"),
+        ],
       }),
     ],
     [
@@ -188,7 +192,6 @@ const config = {
     ({
       navbar: {
         title: " │ ‎ Documentation",
-        hideOnScroll: true,
         logo: {
           alt: "MetaMask logo",
           src: "img/metamask-logo.svg",
@@ -277,33 +280,33 @@ const config = {
                 href: "https://discord.gg/consensys",
               },
               {
-                label: "Snaps GitHub discussions",
-                href: "https://github.com/MetaMask/snaps-monorepo/discussions",
+                label: "Documentation GitHub",
+                href: "https://github.com/MetaMask/mm-docs-v2",
               },
               {
-                label: "Documentation requests",
-                href: "https://github.com/MetaMask/mm-docs-v2/issues/new",
+                label: "MetaMask wallet GitHub",
+                href: "https://github.com/MetaMask/metamask-extension/",
               },
               {
-                label: "User support",
-                href: "https://support.metamask.io/hc/en-us",
+                label: "Snaps GitHub",
+                href: "https://github.com/MetaMask/snaps-monorepo",
               },
             ],
           },
           {
-            title: "Contributors",
+            title: "Legal",
             items: [
               {
-                label: "Contribute to the documentation",
-                href: "https://github.com/MetaMask/mm-docs-v2",
+                label: "Privacy Policy",
+                href: "https://consensys.net/privacy-policy/",
               },
               {
-                label: "Contribute to the MetaMask wallet",
-                href: "https://github.com/MetaMask/metamask-extension/",
+                label: "Terms of Use",
+                href: "https://consensys.net/terms-of-use/",
               },
               {
-                label: "Contribute to MetaMask Snaps",
-                href: "https://github.com/MetaMask/snaps-monorepo",
+                label: "Contributor License Agreement",
+                href: "https://metamask.io/cla/",
               },
             ],
           },
