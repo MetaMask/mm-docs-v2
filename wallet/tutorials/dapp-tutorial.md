@@ -278,7 +278,7 @@ We are going to continue working with local state and one component, but we shou
 
 ### Watching The Users Balance
 
-To update our current component for displaying the connected address's balance, we need to update our `useState` object and since we already use the `eth_requestAccounts` RPC endpoint to determine the accounts, we need to add a dependent call to `eth_getBalance` once we have that account information.
+To update our current component for displaying the connected address's balance and the current `chainId` we need to update our `useState` object and since we already use the `eth_requestAccounts` RPC endpoint to determine the accounts, we need to add a dependent call to `eth_getBalance` once we have that account information.
 
 We will add a function (`handleAccountChange`) that will handle updating the state object on firing of `accountsChanged` as well we will call this method now from anywhere we currently call `setWallet`.
 
@@ -295,32 +295,11 @@ function App() {
   const [wallet, setWallet] = useState(initialState)
 
   useEffect(() => checkConnection(), [])
+  provider && window.ethereum.on('accountsChanged', handleAccountChange)
 
   function formatBalance(rawBalance: string) {
     return (parseInt(rawBalance) / 1000000000000000000).toFixed(2)
   }
-
-  const handleConnect = async () => {
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    })
-    const balance = await window.ethereum!.request({
-      method: "eth_getBalance",
-      params: [accounts[0], "latest"],
-    }).then((rawBalance:any) => formatBalance(rawBalance))
-
-    setWallet({accounts, balance})
-  }
-
-  function checkConnection() {
-    if (provider) {
-      window.ethereum.request({ method: 'eth_accounts' })
-      .then((accounts: any) => handleAccountChange(accounts))
-      .catch(console.error)
-    }
-  }
-
-  provider && window.ethereum.on('accountsChanged', handleAccountChange)
 
   async function handleAccountChange(accounts: any) {
     if(accounts.length > 0) {
@@ -334,6 +313,26 @@ function App() {
       // if length 0, user is disconnected
       setWallet(initialState)
     }
+  }
+
+  function checkConnection() {
+    if (provider) {
+      window.ethereum.request({ method: 'eth_accounts' })
+      .then((accounts: any) => handleAccountChange(accounts))
+      .catch(console.error)
+    }
+  }
+
+  const handleConnect = async () => {
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    })
+    const balance = await window.ethereum!.request({
+      method: "eth_getBalance",
+      params: [accounts[0], "latest"],
+    }).then((rawBalance:any) => formatBalance(rawBalance))
+
+    setWallet({accounts, balance})
   }
 
   return (
@@ -361,3 +360,105 @@ Finally we will add the ability to watch the current network's `chainId` and det
 
 ### Watching the Users Chain
 
+In this final iteration of the single component code, we will detect any change of the chainId, we will also add `chainIdHex` and `chainIdNum` to the local state. I have found when I am building an application that needs to do something with chainId's I'd really like to have the hex and numeric version of this networks chainId. To format as a number we need only use `parseInt`, no clever formatting like we did with the balance and need for it's own format function.
+
+We have added a new function called `handleConnect` since we were calling `eth_getBalance` in two different places and since we would have also had to call `eth_chainId` in two different places.
+
+Let's look at the new code!
+
+```ts
+import './App.css'
+import { useState, useEffect } from 'react'
+import detectEthereumProvider from '@metamask/detect-provider'
+
+let provider = await detectEthereumProvider()
+
+async function App() {
+  const initialState = { accounts: [], balance: "", chainIdHex: "", chainIdNum: 0 }
+  const [wallet, setWallet] = useState(initialState)
+
+  useEffect(() => checkConnection(), [])
+
+  if (provider) {
+    window.ethereum.on('accountsChanged', handleAccountChange)
+    window.ethereum.on("chainChanged", handleChainChange)
+  }
+
+  function formatBalance(rawBalance: string) {
+    return (parseInt(rawBalance) / 1000000000000000000).toFixed(2)
+  }
+
+  async function handleAccountChange(accounts: any) {
+    if(accounts.length > 0) {
+      const walletState = await fetchWalletState()
+      setWallet(walletState)
+    } else {
+      // if length 0, user is disconnected
+      setWallet(initialState)
+    }
+  }
+
+  async function handleChainChange(chainIdHex: any) {
+    const chainIdNum = parseInt(chainIdHex)
+    setWallet({ ...wallet, chainIdHex, chainIdNum })
+  }
+
+  function checkConnection() {
+    if (provider) {
+      window.ethereum.request({ method: 'eth_accounts' })
+      .then((accounts: any) => handleAccountChange(accounts))
+      .catch(console.error)
+    }
+  }
+
+  async function fetchWalletState() {
+    let accounts = wallet.accounts
+    if (wallet.accounts.length < 1) {
+      accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      })
+    }
+    const balance = await window.ethereum!.request({
+      method: "eth_getBalance",
+      params: [accounts[0], "latest"],
+    }).then((rawBalance:any) => formatBalance(rawBalance))
+
+    const chainIdHex = await window.ethereum!.request({
+      method: "eth_chainId",
+    });
+    const chainIdNum = parseInt(chainIdHex)
+
+    return {accounts, balance, chainIdHex, chainIdNum}
+  }
+
+  const handleConnect = async () => {
+    const walletState = await fetchWalletState()
+    setWallet(walletState)
+  }
+
+  return (
+    <div className="App">
+      <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
+      { provider?.isMetaMask && wallet.accounts.length < 1 &&
+        <button onClick={handleConnect}>Connect MetaMask</button>
+      }
+      { wallet.accounts.length > 0 &&
+        <>
+          <div>Wallet Accounts: {wallet.accounts[0]}</div>
+          <div>Wallet Balance: {wallet.balance}</div>
+          <div>Hex ChainId: {wallet.chainIdHex}</div>
+          <div>Numeric ChainId: {wallet.chainIdNum}</div>
+        </>
+      }
+    </div>
+  )
+}
+
+export default App
+```
+
+A few things to note is that our tutorial's app only needs to display information about our wallet. But in a real Web3 app, you may need to do a few more things with the network chainId. 
+
+You may need to have a list of whitelisted chainId's that your app supports, you may need to create UI that shows information on that network, you might want to present a button that allows them to connect to a supported chain, and I'm sure many other things. Knowing the users wallet is on the correct chain and reacting to that in your application is important in almost every Web3 application I can think of.
+
+This tutorial's scope will not be covering any of those scenarios, but at the least you now have that chainId, you are watching it for changes and could build functionality around it if needed.
