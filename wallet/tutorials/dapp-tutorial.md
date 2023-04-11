@@ -13,6 +13,7 @@ description: Beyond getting started, working with the MetaMask API and SDK to co
 - [Manage More MetaMask State Locally](#manage-more-metamask-state-locally)
   - [Watch User Balance](#watch-user-balance)
   - [Watch User Chain](#watch-user-chain)
+  - [Single Component Conclusion](#single-component-conclusion)
 - [Connect MetaMask via SDK](#Connect-metamask-via-SDK)
 - [Manage MetaMask State Globally](#manage-metamask-state-globally)
 
@@ -260,7 +261,7 @@ export default App
 
 With this change we have added a `useEffect` that calls a `checkConnection`. That `checkConnection` method determines if a MetaMask account is connected and sets that connected account in our local state. We have also added a listener `window.ethereum.on('accountsChanged', [function])` that will fire a particular function if the MetaMask account has changed. At this point, we can just call `setWallet` to update our local state with any new `accounts` data.
 
-### Conclusion
+### Connection Wrap Up
 
 In learning how to connect to MetaMask from a React application, we have learned how to track some basic state of our wallet, the accounts that are connected and specifically, which one is selected and active in the MetaMask wallet. We sync this state locally using React State and the React `useEffect` Hook. We ensure that if a user manually disconnects, changes the account or refreshes the page, that our single component is aware of any state change.
 
@@ -462,3 +463,11 @@ A few things to note is that our tutorial's app only needs to display informatio
 You may need to have a list of whitelisted chainId's that your app supports, you may need to create UI that shows information on that network, you might want to present a button that allows them to connect to a supported chain, and I'm sure many other things. Knowing the users wallet is on the correct chain and reacting to that in your application is important in almost every Web3 application I can think of.
 
 This tutorial's scope will not be covering any of those scenarios, but at the least you now have that chainId, you are watching it for changes and could build functionality around it if needed.
+
+### Single Component Conclusion
+
+Our code is starting to get a little confusing. But don't think we have led you astray. We now have our head around connecting and listening to the MetaMask wallet state. But, if we want to bring this functionality to an application with more than one component that will need to know about it's state, we're going to have to break out of this local state and use something like React's Context API to manage the state globally and ensure that any component in our application can be aware and conditionally render or display information pertaining to our MetaMask wallet.
+
+We also would like to bring in the MetaMask SDK, it's only an import and a few lines of code, so it doesn't matter if we do it now or once we've refactored our state. In the next section of the tutorial we will introduce MetaMask SDK which will enable our users to connect via Metamask Extension or MetaMask mobile and we will sort out our application state and make it global.
+
+## Connect MetaMask via SDK
