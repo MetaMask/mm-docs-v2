@@ -373,7 +373,7 @@ import detectEthereumProvider from '@metamask/detect-provider'
 
 let provider = await detectEthereumProvider()
 
-async function App() {
+function App() {
   const initialState = { accounts: [], balance: "", chainIdHex: "", chainIdNum: 0 }
   const [wallet, setWallet] = useState(initialState)
 
