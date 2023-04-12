@@ -27,8 +27,9 @@ Each snap is an object containing:
 - `id` - The ID of the snap.
 - `initialPermissions` - The initial permissions of the snap, which will be requested when the snap
   is installed.
-- `permissionName` - The name of the permission used to invoke the snap.
 - `version` - The version of the snap.
+- `enabled` - `true` if the snap is enabled, `false` otherwise.
+- `blocked` - `true` if the snap is blocked, `false` otherwise.
 
 #### Example
 
@@ -47,18 +48,12 @@ console.log(result);
 ```javascript
 // Example result if any snaps are permitted
 {
-  accountRPC methods?s: ['0xa...', '0xb...'],
-  permissions: {
-    eth_accounts: {},
-    wallet_snap: {},
+  'npm:@metamask/example-snap': {
+    version: '1.0.0',
+    id: 'npm@metamask/example-snap',
+    enabled: true,
+    blocked: false,
   },
-  snaps: {
-    'npm:@metamask/example-snap': {
-      version: '1.0.0',
-      permissionName: 'wallet_snap',
-      ...
-    }
-  }
 }
 ```
 
@@ -158,13 +153,15 @@ try {
 {
   'npm:@metamask/example-snap': {
     version: '1.0.0',
-    permissionName: 'wallet_snap',
-    ...
+    id: 'npm@metamask/example-snap',
+    enabled: true,
+    blocked: false,
   },
   'npm:fooSnap': {
     version: '1.0.5',
-    permissionName: 'wallet_snap',
-    ...
+    id: 'npmfooSnap',
+    enabled: true,
+    blocked: false,
   },
 }
 ```
@@ -718,7 +715,7 @@ await snap.request({
 A website must request the `wallet_snap` permission using
 [`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions) in order to
 interact with the specified snaps.
-Requesting this permission also installs the specified snaps, if not installed already.
+Requesting this permission also invokes the specified snaps.
 
 This method is synonymous to [`wallet_invokeSnap`](#wallet_invokesnap), and is only callable by websites.
 
