@@ -27,7 +27,7 @@ The following video demonstrates how to install and use the MetaMask Unity SDK.
 
 ### 1. Configure build settings
 
-In order to build the SDK, configure the following settings in your Unity editor according to your
+To build the SDK, configure the following settings in your Unity editor according to your
 development platform:
 
 - iOS:
@@ -252,7 +252,7 @@ You can use it to call any [provider API method](../../reference/provider-api.md
 <summary>I can't find the SDK installation option.</summary>
 
 If you don't see the option to [install the SDK](#2-install-the-sdk-for-unity) in your Unity menu,
-make sure you're on the latest Unity version and that you have no red errors printed in your console.
+ensure you're on the latest Unity version and that you have no red errors printed in your console.
 This option not appearing is typically due to incorrect editor initialization, which you can
 usually resolve by restarting the editor or updating your Unity version.
 
