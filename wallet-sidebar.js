@@ -33,6 +33,7 @@ const sidebar = {
           items: [
             "how-to/use-sdk/react-native",
             "how-to/use-sdk/pure-js",
+            "how-to/use-sdk/ios",
             "how-to/use-sdk/unity",
           ],
         },
@@ -44,8 +45,8 @@ const sidebar = {
         "how-to/register-method-names",
         "how-to/access-provider",
         "how-to/secure-dapp",
-        "how-to/use-onboarding-library",
         "how-to/set-icon",
+        "how-to/use-onboarding-library",
         "how-to/migrate-api",
       ],
     },
