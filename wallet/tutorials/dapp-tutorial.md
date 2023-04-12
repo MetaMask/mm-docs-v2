@@ -323,6 +323,9 @@ function App() {
     }
 
     getProvider()
+    return () => {                                              /* New */
+      window.ethereum?.removeListener('accountsChanged', refreshAccounts)
+    }                                                           /* New */
   }, [])
 
   const updateWallet = async (accounts:any) => {
@@ -360,83 +363,95 @@ We can now test our application and see that when we refresh the page, we retain
 
 In learning how to connect to MetaMask from a React application, we have learned how to track some basic state of our wallet (accounts), specifically, which one is selected and active in the MetaMask wallet. We sync this state locally using React `useState` and the React `useEffect` Hooks. We ensure that if a user manually disconnects, changes the account or refreshes the page, that our single component is aware of any state change.
 
-Up next, we will add `balance` and `chainId` to our state, these are important pieces of MetaMask wallet state that we want to keep in sync with our app.
-
 ## Manage More MetaMask State Locally
 
-In this next section, we see what it takes to manage the currently connected account's balance and connected network (chainId). We will see how the strategy for keeping our wallet state in sync progressively gets more complex for each additional piece of state we want to sync.
+We will add `balance` and `chainId` to our state, these are important pieces of MetaMask wallet state that we want to keep in sync with our app.
 
-We are going to continue working with local state and one component, but we should start to think about how this approach is going to scale to a full React app and how we will share this state with additional components and pages as our app grows.
+### Watching The Users Balance and Chain
 
-### Watching The Users Balance
-
-To update our current component for displaying the connected address's balance and the current `chainId` we need to update our `useState` object and since we already use the `eth_requestAccounts` RPC endpoint to determine the accounts, we need to add a dependent call to `eth_getBalance` once we have that account information.
-
-We will add a function (`handleAccountChange`) that will handle updating the state object on firing of `accountsChanged` as well we will call this method now from anywhere we currently call `setWallet`.
+To update our current component for displaying the connected address's balance and the current `chainId` we need to update our `initialState` object and since we already use the `eth_requestAccounts` RPC endpoint to determine the accounts, we need to add a dependent call to `eth_getBalance` once we have that account information.
 
 Finally, we need to parse the returned value of the balance and format it into a human readable string. We'll create a function called `formatBalance` as well.
 
 ```ts
 import './App.css'
 import { useState, useEffect } from 'react'
+import { formatBalance, formatChainAsNum } from './utils'                /* New */
 import detectEthereumProvider from '@metamask/detect-provider'
-let provider = await detectEthereumProvider()
 
 function App() {
-  const initialState = { accounts: [], balance: "" }
+  const [hasProvider, setHasProvider] = useState<boolean | null>(null)
+  const initialState = { accounts: [], balance: "", chainId: "" }        /* Updated */
   const [wallet, setWallet] = useState(initialState)
 
-  useEffect(() => checkConnection(), [])
-  provider && window.ethereum.on('accountsChanged', handleAccountChange)
-
-  function formatBalance(rawBalance: string) {
-    return (parseInt(rawBalance) / 1000000000000000000).toFixed(2)
-  }
-
-  async function handleAccountChange(accounts: any) {
-    if(accounts.length > 0) {
-      const balance = await window.ethereum!.request({
-        method: "eth_getBalance",
-        params: [accounts[0], "latest"],
-      }).then((rawBalance:any) => formatBalance(rawBalance))
-      
-      setWallet({accounts, balance})
-    } else {
-      // if length 0, user is disconnected
-      setWallet(initialState)
+  useEffect(() => {
+    const refreshAccounts = (accounts: any) => {
+      if (accounts.length > 0) {
+        updateWallet(accounts)
+      } else {
+        // if length 0, user is disconnected
+        setWallet(initialState)
+      }
     }
-  }
 
-  function checkConnection() {
-    if (provider) {
-      window.ethereum.request({ method: 'eth_accounts' })
-      .then((accounts: any) => handleAccountChange(accounts))
-      .catch(console.error)
+    const refreshChain = async (chainId: any) => {                       /* New */
+      setWallet((wallet) => ({ ...wallet, chainId }))                    /* New */
+    }                                                                    /* New */
+
+    const getProvider = async () => {
+      const provider = await detectEthereumProvider({ silent: true })
+      setHasProvider(!!provider)
+
+      if (provider) {                                           
+        const accounts = await window.ethereum.request(
+          { method: 'eth_accounts' }
+        )
+        refreshAccounts(accounts)
+        window.ethereum.on('accountsChanged', refreshAccounts)
+        window.ethereum.on("chainChanged", refreshChain)                 /* New */
+      }
     }
+
+    getProvider()
+
+    return () => {
+      window.ethereum?.removeListener('accountsChanged', refreshAccounts)
+      window.ethereum?.removeListener("chainChanged", refreshChain)      /* New */
+    }
+  }, [wallet.accounts.length])                                           /* Updated */
+
+  const updateWallet = async (accounts:any) => {
+    const balance = formatBalance(await window.ethereum!.request({       /* New */
+      method: "eth_getBalance",                                          /* New */
+      params: [accounts[0], "latest"],                                   /* New */ 
+    }))                                                                  /* New */
+    const chainId = await window.ethereum!.request({                     /* New */ 
+      method: "eth_chainId",                                             /* New */ 
+    })                                                                   /* New */ 
+    setWallet({ accounts, balance, chainId })                            /* Updated */ 
   }
 
   const handleConnect = async () => {
-    const accounts = await window.ethereum.request({
+    let accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     })
-    const balance = await window.ethereum!.request({
-      method: "eth_getBalance",
-      params: [accounts[0], "latest"],
-    }).then((rawBalance:any) => formatBalance(rawBalance))
-
-    setWallet({accounts, balance})
+    updateWallet(accounts)
   }
 
   return (
     <div className="App">
-      <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider?.isMetaMask && wallet.accounts.length < 1 &&
+      <div>Injected Provider {hasProvider ? 'DOES' : 'DOES NOT'} Exist</div>
+
+      { window.ethereum?.isMetaMask && wallet.accounts.length < 1 &&
         <button onClick={handleConnect}>Connect MetaMask</button>
       }
+
       { wallet.accounts.length > 0 &&
-        <>
+        <>                                                               {/* New */}
           <div>Wallet Accounts: {wallet.accounts[0]}</div>
-          <div>Wallet Balance: {wallet.balance}</div>
+          <div>Wallet Balance: {wallet.balance}</div>                    {/* New */}
+          <div>Hex ChainId: {wallet.chainId}</div>                       {/* New */}
+          <div>Numeric ChainId: {formatChainAsNum(wallet.chainId)}</div> {/* New */}
         </>
       }
     </div>
@@ -446,119 +461,16 @@ function App() {
 export default App
 ```
 
-That wasn't too bad, the changes were minimal and pretty obvious, we needed a new property in our local state, ensuring that when we update that state that both values are being passed through. As well, we needed to fetch our balance once the accounts had already been determined.
+That wasn't too bad, the changes were minimal in that we only needed to update or duplicate existing functionality and add a few utility functions.
 
-Finally we will add the ability to watch the current network's `chainId` and determine what we will do if the currently selected chain in the users wallet is not the one we need for interacting with our site.
+We detect any change of the `balance` or `chain`, and our utility functions help us in formatting hex strings into human readable from ready for display. For chainId's we want to be able to use the hex version in RPC calls and the numeric version for display. We use `parseInt`, no clever formatting like we did for the balance but we put them both in easy to import and use functions.
 
-### Watching the Users Chain
+A few things to note is that our tutorial's app only needs to display information about our wallet. But in a real Web3 app, you may need to add more functionality for switching chains programatically or initiating transactions. 
 
-In this final iteration of the single component code, we will detect any change of the chainId, we will also add `chainIdHex` and `chainIdNum` to the local state. I have found when I am building an application that needs to do something with chainId's I'd really like to have the hex and numeric version of this networks chainId. To format as a number we need only use `parseInt`, no clever formatting like we did with the balance and need for it's own format function.
-
-We have added a new function called `handleConnect` since we were calling `eth_getBalance` in two different places and since we would have also had to call `eth_chainId` in two different places.
-
-Let's look at the new code!
-
-```ts
-import './App.css'
-import { useState, useEffect } from 'react'
-import detectEthereumProvider from '@metamask/detect-provider'
-
-let provider = await detectEthereumProvider()
-
-function App() {
-  const initialState = { accounts: [], balance: "", chainIdHex: "", chainIdNum: 0 }
-  const [wallet, setWallet] = useState(initialState)
-
-  useEffect(() => checkConnection(), [])
-
-  if (provider) {
-    window.ethereum.on('accountsChanged', handleAccountChange)
-    window.ethereum.on("chainChanged", handleChainChange)
-  }
-
-  function formatBalance(rawBalance: string) {
-    return (parseInt(rawBalance) / 1000000000000000000).toFixed(2)
-  }
-
-  async function handleAccountChange(accounts: any) {
-    if(accounts.length > 0) {
-      const walletState = await fetchWalletState()
-      setWallet(walletState)
-    } else {
-      // if length 0, user is disconnected
-      setWallet(initialState)
-    }
-  }
-
-  async function handleChainChange(chainIdHex: any) {
-    const chainIdNum = parseInt(chainIdHex)
-    setWallet({ ...wallet, chainIdHex, chainIdNum })
-  }
-
-  function checkConnection() {
-    if (provider) {
-      window.ethereum.request({ method: 'eth_accounts' })
-      .then((accounts: any) => handleAccountChange(accounts))
-      .catch(console.error)
-    }
-  }
-
-  async function fetchWalletState() {
-    let accounts = wallet.accounts
-    if (wallet.accounts.length < 1) {
-      accounts = await window.ethereum.request({
-        method: "eth_requestAccounts",
-      })
-    }
-    const balance = await window.ethereum!.request({
-      method: "eth_getBalance",
-      params: [accounts[0], "latest"],
-    }).then((rawBalance:any) => formatBalance(rawBalance))
-
-    const chainIdHex = await window.ethereum!.request({
-      method: "eth_chainId",
-    });
-    const chainIdNum = parseInt(chainIdHex)
-
-    return {accounts, balance, chainIdHex, chainIdNum}
-  }
-
-  const handleConnect = async () => {
-    const walletState = await fetchWalletState()
-    setWallet(walletState)
-  }
-
-  return (
-    <div className="App">
-      <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider?.isMetaMask && wallet.accounts.length < 1 &&
-        <button onClick={handleConnect}>Connect MetaMask</button>
-      }
-      { wallet.accounts.length > 0 &&
-        <>
-          <div>Wallet Accounts: {wallet.accounts[0]}</div>
-          <div>Wallet Balance: {wallet.balance}</div>
-          <div>Hex ChainId: {wallet.chainIdHex}</div>
-          <div>Numeric ChainId: {wallet.chainIdNum}</div>
-        </>
-      }
-    </div>
-  )
-}
-
-export default App
-```
-
-A few things to note is that our tutorial's app only needs to display information about our wallet. But in a real Web3 app, you may need to do a few more things with the network chainId. 
-
-You may need to have a list of whitelisted chainId's that your app supports, you may need to create UI that shows information on that network, you might want to present a button that allows them to connect to a supported chain, and I'm sure many other things. Knowing the users wallet is on the correct chain and reacting to that in your application is important in almost every Web3 application I can think of.
-
-This tutorial's scope will not be covering any of those scenarios, but at the least you now have that chainId, you are watching it for changes and could build functionality around it if needed.
+You may need to have a list of whitelisted chainId's that your app supports, you may need to create UI that shows information on that network, you might want to present a button that allows them to connect to a supported chain, and other things. Knowing the users wallet is on the correct chain and reacting to that in your application is important in almost every Web3 application.
 
 ### Single Component Conclusion
 
-Our code is starting to get a little confusing. But don't think we have led you astray. We now have our head around connecting and listening to the MetaMask wallet state. But, if we want to bring this functionality to an application with more than one component that will need to know about it's state, we're going to have to break out of this local state and use something like React's Context API to manage the state globally and ensure that any component in our application can be aware and conditionally render or display information pertaining to our MetaMask wallet.
+Our code is starting to get a little confusing. But don't think we have led you astray. We now have our head around connecting and listening to the MetaMask wallet state. But, if we want to bring this functionality to an application with more than one component subscribing to its state, we're going to have to break out of this local state and use something like [React's Context API](https://react.dev/reference/react/useContext) to manage the state globally and ensure that any component in our application can be aware and conditionally render or display information pertaining to our MetaMask wallet.
 
-We also would like to bring in the MetaMask SDK, it's only an import and a few lines of code, so it doesn't matter if we do it now or once we've refactored our state. In the next section of the tutorial we will introduce MetaMask SDK which will enable our users to connect via Metamask Extension or MetaMask mobile and we will sort out our application state and make it global.
-
-## Connect MetaMask via SDK
+We also would like to bring in the MetaMask SDK, it's only an import and a few lines of code, we will do that now before lifting up our state to a global context so that you can see it's implementation in both scenarios. In the next section of the tutorial we will introduce MetaMask SDK which will enable our users to connect via Metamask Extension or MetaMask mobile and we will sort out our application state and make it global.
