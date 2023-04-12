@@ -18,7 +18,7 @@ The following globals are also available:
 
 - `console`
 - `crypto`
-- `fetch` / `WebSocket` (with the
+- `fetch` (with the
   [`endowment:network-access`](../reference/permissions.md#endowment--network-access) permission)
 - `setTimeout` / `clearTimeout`
 - `setInterval` / `clearInterval`
