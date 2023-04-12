@@ -733,7 +733,7 @@ Use [`wallet_getSnaps`](#wallet_getsnaps) to get a list of a website's permitted
 #### Parameters
 
 When requesting this permission, specify a caveat of type `snapIds`.
-Specify each snap to request permission to interact with as an entry in the `value` field.
+Specify each snap to request permission to interact with as an entry in the `value` field of the caveat.
 Each snap entry can include a `version` to install.
 The default is the latest version.
 
