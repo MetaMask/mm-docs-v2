@@ -170,7 +170,7 @@ The code above will work, but if you know w thing or two about React and have tr
 > If you have disabled your MetaMask wallet in your browser and run this page with the console open, you will notice a brief moment when the page is blank and then you will receive an error:
 
 ```bash
-act_devtools_backend.js:2655 @metamask/detect-provider: Unable to detect window.ethereum.
+react_devtools_backend.js:2655 @metamask/detect-provider: Unable to detect window.ethereum.
 o
 ```
 
