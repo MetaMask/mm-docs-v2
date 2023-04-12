@@ -715,36 +715,48 @@ await snap.request({
 
 ### wallet_snap
 
-Invokes the specified JSON-RPC method of the specified snap.
-A website must request permission to call this method using
+A website must request the `wallet_snap` permission using
 [`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions) in order to
-interact with the specified snap.
+interact with the specified snaps.
+Requesting this permission also installs the specified snaps, if not installed already.
 
-This method is only callable by websites.
+This method is synonymous to [`wallet_invokeSnap`](#wallet_invokesnap), and is only callable by websites.
+
+:::note
+Most websites only ever make one call to `wallet_requestPermissions`.
+Consecutive calls to `wallet_requestPermissions` for the `wallet_snap` permission overwrites a
+website's existing permissions to interact with snaps.
+To deal with this, you must write custom logic to merge existing snap IDs with new ones you're requesting.
+Use [`wallet_getSnaps`](#wallet_getsnaps) to get a list of a website's permitted snaps.
+:::
 
 #### Parameters
 
-An object containing:
-
-- `snapId` - The ID of the snap to invoke.
-- `request` - The JSON-RPC request object to send to the invoked snap.
-
-#### Returns
-
-The result of the snap method call.
+When requesting this permission, specify a caveat of type `snapIds`.
+Specify each snap to request permission to interact with as an entry in the `value` field.
+Each snap entry can include a `version` to install.
+The default is the latest version.
 
 #### Example
 
+The following is an example of calling `wallet_requestPermissions` to request the `wallet_snap`
+permission:
+
 ```javascript
 const result = await ethereum.request({
-  method: 'wallet_snap',
-  params: {
-    snapId: '@metamask/example-snap',
-    request: {
-      method: 'hello',
-    },
-  },
+  method: 'wallet_requestPermissions',
+  params: [{
+    wallet_snap: {
+      caveats: [
+        {
+          type: 'snapIds',
+          value: {
+            '@metamask/example-snap': { version: '1.0.0' },
+            '@metamask/foo-bar-snap': { version: '1.2.1' },
+          }
+        }
+      ]
+    }
+  }],
 });
-
-console.log(result); // In this example, the result is a boolean.
 ```
