@@ -50,7 +50,7 @@ console.log(result);
 {
   'npm:@metamask/example-snap': {
     version: '1.0.0',
-    id: 'npm@metamask/example-snap',
+    id: 'npm:@metamask/example-snap',
     enabled: true,
     blocked: false,
   },
@@ -153,13 +153,13 @@ try {
 {
   'npm:@metamask/example-snap': {
     version: '1.0.0',
-    id: 'npm@metamask/example-snap',
+    id: 'npm:@metamask/example-snap',
     enabled: true,
     blocked: false,
   },
   'npm:fooSnap': {
     version: '1.0.5',
-    id: 'npmfooSnap',
+    id: 'npm:fooSnap',
     enabled: true,
     blocked: false,
   },
@@ -748,8 +748,8 @@ const result = await ethereum.request({
         {
           type: 'snapIds',
           value: {
-            '@metamask/example-snap': { version: '1.0.0' },
-            '@metamask/foo-bar-snap': { version: '1.2.1' },
+            'npm:@metamask/example-snap': { version: '1.0.0' },
+            'npm:@metamask/foo-bar-snap': { version: '1.2.1' },
           }
         }
       ]
