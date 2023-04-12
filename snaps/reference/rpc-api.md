@@ -50,12 +50,12 @@ console.log(result);
   accountRPC methods?s: ['0xa...', '0xb...'],
   permissions: {
     eth_accounts: {},
-    'wallet_snap_npm:@metamask/example-snap': {},
+    wallet_snap: {},
   },
   snaps: {
     'npm:@metamask/example-snap': {
       version: '1.0.0',
-      permissionName: 'wallet_snap_npm:@metamask/example-snap',
+      permissionName: 'wallet_snap',
       ...
     }
   }
@@ -158,12 +158,12 @@ try {
 {
   'npm:@metamask/example-snap': {
     version: '1.0.0',
-    permissionName: 'wallet_snap_npm:@metamask/example-snap',
+    permissionName: 'wallet_snap',
     ...
   },
   'npm:fooSnap': {
     version: '1.0.5',
-    permissionName: 'wallet_snap_npm:fooSnap',
+    permissionName: 'wallet_snap',
     ...
   },
 }
