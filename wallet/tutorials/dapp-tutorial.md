@@ -185,12 +185,12 @@ import detectEthereumProvider from '@metamask/detect-provider'
 
 function App() {
 
-  const [provider, setProvider] = useState<boolean | null>(null)
+  const [hasProvider, setHasProvider] = useState<boolean | null>(null)
 
   useEffect(() => {
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
-      setProvider(!!provider) // transform provider to true or false
+      setHasProvider(!!provider) // transform provider to true or false
     }
 
     getProvider()
@@ -198,8 +198,8 @@ function App() {
 
   return (
     <div className="App">
-      <div>Injected Provider {provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider &&
+      <div>Injected Provider {hasProvider ? 'DOES' : 'DOES NOT'} Exist</div>
+      { hasProvider &&
         <button>Connect MetaMask</button>
       }
     </div>
@@ -221,7 +221,9 @@ If we run our code again in this new configuration, we will see that we are no l
 
 ## Connecting to MetaMask
 
-We'll import React's `useState`. In the next scenario, we will use it to store the state of the wallet as we will have a single property named `accounts` to represent the wallet accounts we have connected to.
+In the next scenario, we will create another `useState` to hold our `wallet` state. We will be keeping our application up to date with various MetaMask wallet properties like `accounts`, `balance`, and  `chainId`. These are the most important properties of the MetaMask wallet that we want to constantly sync with our application. We will start with first adding state for `accounts` and slowly build up our state over the next few sections of the tutorial.
+
+We will also be wiring up our button to connect to the MetaMask wallet.
 
 Update the `src/App.tsx` to:
 
