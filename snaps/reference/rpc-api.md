@@ -715,7 +715,8 @@ await snap.request({
 A website must request the `wallet_snap` permission using
 [`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions) in order to
 interact with the specified snaps.
-Requesting this permission also invokes the specified snaps.
+
+A website can also call this method to invoke the specified JSON-RPC method of the specified snap.
 
 This method is synonymous to [`wallet_invokeSnap`](#wallet_invokesnap), and is only callable by websites.
 
@@ -734,7 +735,16 @@ Specify each snap to request permission to interact with as an entry in the `val
 Each snap entry can include a `version` to install.
 The default is the latest version.
 
+When calling this method, it takes as a parameter one object containing:
+
+- `snapId` - The ID of the snap to invoke.
+- `request` - The JSON-RPC request object to send to the invoked snap.
+
 #### Example
+
+<!--tabs-->
+
+# wallet_requestPermissions
 
 The following is an example of calling `wallet_requestPermissions` to request the `wallet_snap`
 permission:
@@ -757,3 +767,23 @@ const result = await ethereum.request({
   }],
 });
 ```
+
+# wallet_snap
+
+The following is an example of calling `wallet_snap`:
+
+```javascript
+const result = await ethereum.request({
+  method: 'wallet_snap',
+  params: {
+    snapId: 'npm:@metamask/example-snap',
+    request: {
+      method: 'hello',
+    },
+  },
+});
+
+console.log(result); // In this example, the result is a boolean.
+```
+
+<!--/tabs-->
