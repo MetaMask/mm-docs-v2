@@ -740,6 +740,10 @@ When calling this method, it takes as a parameter one object containing:
 - `snapId` - The ID of the snap to invoke.
 - `request` - The JSON-RPC request object to send to the invoked snap.
 
+#### Returns
+
+Result of the snap method call.
+
 #### Example
 
 <!--tabs-->
