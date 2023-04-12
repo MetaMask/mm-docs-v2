@@ -24,20 +24,20 @@ Ensure you have the following before starting this tutorial.
 - Node Version 18+
 - NPM Version 9+
 - Code Editor
-- [MetaMask Extension & Mobile](https://metamask.io/download)
-- Basic Knowledge of React and React Hooks
+- [MetaMask Extension](https://metamask.io/download)
+- Basic Knowledge of JavaScript and React
 
-You can use MetaMask Extension exclusively for this tutorial, however; the MetaMask SDK enables the ability to easily connect to Extension or Mobile, having MetaMask Mobile installed on iOS or Android is recommended.
+<!-- You can use MetaMask Extension exclusively for this tutorial, however; the MetaMask SDK enables the ability to easily connect to Extension or Mobile, having MetaMask Mobile installed on iOS or Android is recommended for Part 2. -->
 
 ## Why Vite and React
 
 [Vite.js](https://v3.vitejs.dev/guide) is a build tool for modern web projects. You can create VanillaJS, Vue, React, Preact, Lit, and Svelte projects using JavaScript or TypeScript.
 
-This tutorial uses Vite + React (With and Without TypeScript). Getting started, we will use JavaScript to show the basics of working with MetaMask in React. As we scale our project to include more components, State, the use of Context API, and additional pages and components. Because we start with a Vite TypeScript project, we will easily be able to take advantage of Typing.
+This tutorial uses Vite + React (with TypeScript). We will step up our use of TypeScript only as we need to.
 
-We will build up our knowledge of working with MetaMask incrementally and refactor our code and recosider our approach as the app needs to scale.
+We will build up our knowledge of working with MetaMask incrementally, this may mean we don't go with the best solution right out of the gate, but the idea is to experiment with the MetaMask API and continually work towards better solutions.
 
-Using React makes working with state management and building with components that need to update easy, this means we can rapidly develop our application using a library that is familiar to most web developers.
+Using React makes working with state management and building with components that need to update easy and allows us to rapidly develop an application using a library and concepts that are familiar to most web developers.
 
 ## Scaffold Vite
 
@@ -72,7 +72,7 @@ function App() {
 export default App
 ```
 
-We want to define the `window.ethereum` object as `any` to avoid warnings in our editor. Once we are using the Ethers Web3 convenience library, we can set that object to an actual type.
+We want to define the `window.ethereum` object as `any` to get around type checking. This is ok for the purpose of this demo, but there are other approaches that are beyond the scope of this tutorial.
 
 In the `src/vite-env.d.ts` file, update to:
 
@@ -100,11 +100,9 @@ button {
 }
 ```
 
-This will make our page slightly prettier.
-
 ## Detecting MetaMask
 
-Detecting the injected provider that Web3 wallets use seems rather straight forward. Let's write some code in our component that will let us conditionally render a "Connect MetaMask" button.
+Detecting the injected provider that browser extension wallets use is straight forward. Let's write some code in our component that will let us conditionally render a "Connect MetaMask" button.
 
 Update the `src/App.tsx` as follows:
 
@@ -134,10 +132,14 @@ function App() {
 export default App
 ```
 
-Detecting the provider in the way we have above, seems straight forward, but we actually recommend using the [@metamask/detect-provider](https://github.com/MetaMask/detect-provider) module to detect the MetaMask Ethereum provider or any provider injected at `window.ethereum` on any platform or browser.
+If we have MetaMask installed, we manage our browser extensions and disable MetaMask refresh our application and then enable it again and refresh and we should see that our application is properly detecting the presence of our MetaMask wallet
+
+The approach above is often what developers will try when first tasked in detecting an injected provider (Wallet Extension), but the MetaMask team provides a library called [@metamask/detect-provider](https://github.com/MetaMask/detect-provider) with a module to detect the MetaMask Ethereum provider or any provider injected at `window.ethereum` on any platform or browser. Let's install it and change our code to implement it instead.
+
+Install the dependency:
 
 ```bash
-npm i @metamask/detect-provider
+npm install @metamask/detect-provider
 ```
 
 With this, we can update our `src/App.tsx` to:
@@ -163,9 +165,59 @@ function App() {
 export default App
 ```
 
-Here we have detected the Ethereum Provider and determined if `isMetaMask` is true. As well we have some basic logic in our component that renders some text one way or another is the provider is available and renders a "Connect MetaMask" button if `isMetaMask` is `true`.
+The code above will work, but if you know w thing or two about React and have tried to implement the `detect-provider` by following a NodeJS docs example, you might think this is what you need to do. The problem is that we are blocking the rendering of our React component until a provider has determined to not be present. 
 
-Next we will wire up this button, so that if we have a MetaMask Extension to connect to, we can go ahead and connect and return the the current `chainId`.
+> If you have disabled your MetaMask wallet in your browser and run this page with the console open, you will notice a brief moment when the page is blank and then you will receive an error:
+
+```bash
+act_devtools_backend.js:2655 @metamask/detect-provider: Unable to detect window.ethereum.
+o
+```
+
+So I'm here to show you a better way to use this code in a React application. 
+
+Let's add imports for `useState` and `useEffect` and update the code in our `src/App.tsx` component:
+
+```ts
+import './App.css'
+import { useState, useEffect } from 'react'
+import detectEthereumProvider from '@metamask/detect-provider'
+
+function App() {
+
+  const [provider, setProvider] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    const getProvider = async () => {
+      const provider = await detectEthereumProvider({ silent: true })
+      setProvider(!!provider) // transform provider to true or false
+    }
+
+    getProvider()
+  }, [])
+
+  return (
+    <div className="App">
+      <div>Injected Provider {provider ? 'DOES' : 'DOES NOT'} Exist</div>
+      { provider &&
+        <button>Connect MetaMask</button>
+      }
+    </div>
+  )
+}
+
+export default App
+```
+
+This is a bit more code, but we are now relying on the `detect-provider` which is taking much more into consideration than our hacky attempt before. 
+
+We are creating a piece of local state that be of type boolean or of null value, initialized with a null value.  
+
+Next we create a `useEffect` with zero dependencies (it will only run once in our component lifecycle). 
+
+Inside that `useEffect` we create an `async` function called `getProvider`. We need to define an async function inside of our `useEffect` because the `useEffect` function itself cannot be `async`. This function `await`s the `detectEthereumProvider` call using an option (`silent: true`) to silence the error we had seen before (it is expected if no provider is present). We use our setter function from within our `useState` and transform the detection of the provider to a `boolean` (true/false) value.
+
+If we run our code again in this new configuration, we will see that we are no longer blocking our components rendering and there is no error in our console.
 
 ## Connecting to MetaMask
 
