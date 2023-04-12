@@ -354,17 +354,13 @@ function App() {
 export default App
 ```
 
-We can now test our application and see that when we refresh the page, we retain our display of the users address. We can also see that managing state in a single component is a lot of work when we are syncing with a source outside of our application. But most of the logic is in place to start adding a few more properties to our state object like `balance` and `chainId`.
+We can now test our application and see that when we refresh the page, we retain our display of the users address. We can also see that managing state in a single component is a lot of work when we are syncing with a source outside of our application. But most of the logic is in place to start adding a few more properties to our state object.
 
 ### Connection Wrap Up
 
-In learning how to connect to MetaMask from a React application, we have learned how to track some basic state of our wallet, the accounts that are connected and specifically, which one is selected and active in the MetaMask wallet. We sync this state locally using React State and the React `useEffect` Hook. We ensure that if a user manually disconnects, changes the account or refreshes the page, that our single component is aware of any state change.
+In learning how to connect to MetaMask from a React application, we have learned how to track some basic state of our wallet (accounts), specifically, which one is selected and active in the MetaMask wallet. We sync this state locally using React `useState` and the React `useEffect` Hooks. We ensure that if a user manually disconnects, changes the account or refreshes the page, that our single component is aware of any state change.
 
-Of course, our apps will scale, they will eventually have multiple components and need to keep in sync with much more than just the current selected accounts. But we have the basics of how to work with the wallet in React.
-
-In the next section, we will add the connected account's `balance` and `chainId` to our state, these are important pieces of MetaMask wallet state that we want to keep in sync with our app. 
-
-The MetaMask wallet is an external app that lives outside of our application and it's state is ever changing. The MetaMask user could pay for something on another site, send ETH to a friend or use another site to change their chainId and Network. Our React app needs to listen for these changes and update it's component(s) accordingly.
+Up next, we will add `balance` and `chainId` to our state, these are important pieces of MetaMask wallet state that we want to keep in sync with our app.
 
 ## Manage More MetaMask State Locally
 
