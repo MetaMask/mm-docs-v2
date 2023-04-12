@@ -184,7 +184,6 @@ import { useState, useEffect } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
 
 function App() {
-
   const [hasProvider, setHasProvider] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -229,30 +228,44 @@ Update the `src/App.tsx` to:
 
 ```ts
 import './App.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
-const provider = await detectEthereumProvider()
 
 function App() {
-  const [wallet, setWallet] = useState({
-    accounts: []
-  })
+  const [hasProvider, setHasProvider] = useState<boolean | null>(null)
+  const initialState = { accounts: [] }               /* New */
+  const [wallet, setWallet] = useState(initialState)  /* New */
 
-  const handleConnect = async () => {
-    let accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    })
-    setWallet({ accounts })
-  }
+  useEffect(() => {
+    const getProvider = async () => {
+      const provider = await detectEthereumProvider({ silent: true })
+      setHasProvider(!!provider)
+    }
+
+    getProvider()
+  }, [])
+
+  const updateWallet = async (accounts:any) => {     /* New */
+    setWallet({ accounts })                          /* New */
+  }                                                  /* New */
+
+  const handleConnect = async () => {                /* New */
+    let accounts = await window.ethereum.request({   /* New */
+      method: "eth_requestAccounts",                 /* New */
+    })                                               /* New */
+    updateWallet(accounts)                           /* New */
+  }                                                  /* New */
 
   return (
     <div className="App">
-      <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider?.isMetaMask && wallet.accounts.length < 1 &&
+      <div>Injected Provider {hasProvider ? 'DOES' : 'DOES NOT'} Exist</div>
+
+      { hasProvider &&                               /* Updated */
         <button onClick={handleConnect}>Connect MetaMask</button>
       }
-      { wallet.accounts.length > 0 &&
-        <div>Wallet Accounts: {wallet.accounts[0]}</div>
+      
+      { wallet.accounts.length > 0 &&                /* New */
+        <div>Wallet Accounts: { wallet.accounts[0] }</div>
       }
     </div>
   )
@@ -260,51 +273,79 @@ function App() {
 
 export default App
 ```
+The code above has comments on each new line of code and those lines of code that have been updated. Let's talk about these changes.
 
-We have a button that connects to a MetaMask account and displays the balance once we have done so, but this is not very useful because as soon as we refresh the page, we lose the account information. This implementation requires us to reconnect each time to set that local state. We are going to need some more logic in our React component to know if we are already connected, to detect if they manually disconnect from their our site in MetaMask, and we want to be able to know if they are already connected upon refresh and populate the connected accounts if so.
+We create an object that represent the initial empty state object, as well a new `useState` that will hold our important `wallet` state.
 
-If we can solve these issues by listening to the `accountsChanged` provider, we will also be able to update the connected account in our state if they manually change which account they are connected to in the MetaMask wallet. Remember that a MetaMask user can have multiple accounts in their wallet and switch between them at any time.
+We have added an `updateWallet` function to update our wallet state and this function will come in handy as we add `balance` and `chainId` to our state. Right now it looks a bit overkill. But we are forecasting what we will need in the next few steps.
 
-Let's update our `src/App.tsx` with some logic and a `useEffect`:
+We have added a `handleConnect` function that our button will call to connect to MetaMask using `window.ethereum.request` and it's `eth_requestAccounts` method. We store the awaited result from this RPC call in a variable named `accounts` and then pass it to our `updateWallet` function, storing that account array in our local state.
+
+### React We Have a Problem
+
+We lose our account data if we refresh the page. When we connect with the button, we set those accounts in our state, but when the page refreshes, we need something in our `useEffect` that will check to see if we are already connected and update our wallet state.
+
+Thinking ahead we know that once we are tracking more than just `accounts`, we will need a mechanism to also get the `balance` and `chainId` and update their state too.
+
+Let's update our `src/App.tsx` with some added logic to our `useEffect`:
 
 ```ts
 import './App.css'
 import { useState, useEffect } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
-const provider = await detectEthereumProvider()
 
 function App() {
-  const [wallet, setWallet] = useState({
-    accounts: []
-  })
+  const [hasProvider, setHasProvider] = useState<boolean | null>(null)
+  const initialState = { accounts: [] }
+  const [wallet, setWallet] = useState(initialState)
 
-  useEffect(() => checkConnection(), [])
+  useEffect(() => {
+    const refreshAccounts = (accounts: any) => {                /* New */
+      if (accounts.length > 0) {                                /* New */
+        updateWallet(accounts)                                  /* New */
+      } else {                                                  /* New */
+        // if length 0, user is disconnected                    /* New */
+        setWallet(initialState)                                 /* New */
+      }                                                         /* New */
+    }                                                           /* New */
+
+    const getProvider = async () => {
+      const provider = await detectEthereumProvider({ silent: true })
+      setHasProvider(!!provider)
+
+      if (provider) {                                           /* New */
+        const accounts = await window.ethereum.request(         /* New */
+          { method: 'eth_accounts' }                            /* New */
+        )                                                       /* New */
+        refreshAccounts(accounts)                               /* New */
+        window.ethereum.on('accountsChanged', refreshAccounts)  /* New */
+      }                                                         /* New */
+    }
+
+    getProvider()
+  }, [])
+
+  const updateWallet = async (accounts:any) => {
+    setWallet({ accounts })
+  }
 
   const handleConnect = async () => {
     let accounts = await window.ethereum.request({
       method: "eth_requestAccounts",
     })
-    setWallet({accounts})
+    updateWallet(accounts)
   }
-
-  function checkConnection() {
-    if (provider) {
-      window.ethereum.request({ method: 'eth_accounts' })
-      .then((accounts: any) => handleAccountChange(accounts))
-      .catch(console.error)
-    }
-  }
-
-  provider && window.ethereum.on('accountsChanged', (accounts: any) => setWallet({accounts}))
 
   return (
     <div className="App">
-      <div>Injected Provider { provider ? 'DOES' : 'DOES NOT'} Exist</div>
-      { provider?.isMetaMask && wallet.accounts.length < 1 &&
+      <div>Injected Provider {hasProvider ? 'DOES' : 'DOES NOT'} Exist</div>
+
+      { window.ethereum?.isMetaMask && wallet.accounts.length < 1 &&  /* Updated */
         <button onClick={handleConnect}>Connect MetaMask</button>
       }
+
       { wallet.accounts.length > 0 &&
-        <div>Wallet Accounts: {wallet.accounts[0]}</div>
+        <div>Wallet Accounts: { wallet.accounts[0] }</div>
       }
     </div>
   )
@@ -313,7 +354,7 @@ function App() {
 export default App
 ```
 
-With this change we have added a `useEffect` that calls a `checkConnection`. That `checkConnection` method determines if a MetaMask account is connected and sets that connected account in our local state. We have also added a listener `window.ethereum.on('accountsChanged', [function])` that will fire a particular function if the MetaMask account has changed. At this point, we can just call `setWallet` to update our local state with any new `accounts` data.
+We can now test our application and see that when we refresh the page, we retain our display of the users address. We can also see that managing state in a single component is a lot of work when we are syncing with a source outside of our application. But most of the logic is in place to start adding a few more properties to our state object like `balance` and `chainId`.
 
 ### Connection Wrap Up
 
