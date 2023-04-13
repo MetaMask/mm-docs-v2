@@ -26,11 +26,6 @@ to MetaMask Mobile using a QR code.
 
 ![SDK desktop browser example](../../../assets/sdk-desktop-browser.gif)
 
-You can try the
-[hosted test dapp with the SDK installed](https://c0f4f41c-2f55-4863-921b-sdk-docs.github.io/test-dapp-2/).
-You can also see this
-[React project example](https://github.com/MetaMask/examples/tree/main/metamask-with/metamask-sdk-create-react-app).
-
 # Mobile browser
 
 If a user accesses your web dapp on a mobile browser, the SDK automatically deeplinks to MetaMask
@@ -44,12 +39,13 @@ This happens for all actions that need user approval.
 
 </p>
 
+<!--/tabs-->
+
 You can try the
 [hosted test dapp with the SDK installed](https://c0f4f41c-2f55-4863-921b-sdk-docs.github.io/test-dapp-2/).
-You can also see this
+You can also download the
 [React project example](https://github.com/MetaMask/examples/tree/main/metamask-with/metamask-sdk-create-react-app).
-
-<!--/tabs-->
+Install the example using `yarn` and run it using `yarn start`.
 
 ## Prerequisites
 

@@ -19,6 +19,10 @@ scan with their MetaMask Mobile app.
 
 </p>
 
+You can download the
+[Node.js example](https://c0f4f41c-2f55-4863-921b-sdk-docs.github.io/downloads/nodejs_v0.0.1_beta5.zip).
+Install the example using `yarn` and run it using `node .`.
+
 ## Steps
 
 ### 1. Install the SDK
