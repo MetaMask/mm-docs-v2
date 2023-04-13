@@ -16,7 +16,7 @@ This happens for all actions that need user approval.
 
 <p align="center">
 
-![SDK React Native example](../../assets/sdk-react-native.gif)
+![SDK React Native example](../../../assets/sdk-react-native.gif)
 
 </p>
 
@@ -125,10 +125,10 @@ const ethereum = MMSDK.getProvider();
 const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
 ```
 
-You can configure the SDK using any [options](../../reference/sdk-js-options.md) and call any
-[provider API methods](../../reference/provider-api.md).
-Always call [`eth_requestAccounts`](../../reference/rpc-api.md#ethrequestaccounts) using
-[`ethereum.request()`](../../reference/provider-api.md#windowethereumrequest--args-) first, since it
+You can configure the SDK using any [options](../../../reference/sdk-js-options.md) and call any
+[provider API methods](../../../reference/provider-api.md).
+Always call [`eth_requestAccounts`](../../../reference/rpc-api.md#ethrequestaccounts) using
+[`ethereum.request()`](../../../reference/provider-api.md#windowethereumrequest--args-) first, since it
 prompts the installation or connection popup to appear.
 
 You can use [EthersJS](https://docs.ethers.io/v5/getting-started/) with your React Native app:

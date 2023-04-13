@@ -31,8 +31,23 @@ const sidebar = {
             id: "how-to/use-sdk/index",
           },
           items: [
-            "how-to/use-sdk/react-native",
-            "how-to/use-sdk/pure-js",
+            {
+              type: "category",
+              label: "JavaScript",
+              collapsed: true,
+              link: {
+                type: "doc",
+                id: "how-to/use-sdk/javascript/index",
+              },
+              items: [
+                "how-to/use-sdk/javascript/react",
+                "how-to/use-sdk/javascript/pure-js",
+                "how-to/use-sdk/javascript/other-web-frameworks",
+                "how-to/use-sdk/javascript/react-native",
+                "how-to/use-sdk/javascript/nodejs",
+                "how-to/use-sdk/javascript/electron",
+              ],
+            },
             "how-to/use-sdk/ios",
             "how-to/use-sdk/unity",
           ],
