@@ -179,7 +179,7 @@ For restricted methods callable by websites, a website must request permission t
 
 :::caution
 This method is deprecated.
-Please migrate all instances of `snap_confirm` to [`snap_dialog`](#snapdialog).
+Please migrate all instances of `snap_confirm` to [`snap_dialog`](#snap_dialog).
 :::
 
 Displays a confirmation in the MetaMask UI.
