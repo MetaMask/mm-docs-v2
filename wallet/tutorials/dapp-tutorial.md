@@ -189,7 +189,7 @@ const App = () => {
   useEffect(() => {
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
-      setHasProvider(!!provider) // transform provider to true or false
+      setHasProvider(Boolean(provider)) // transform provider to true or false
     }
 
     getProvider()
@@ -239,7 +239,7 @@ const App = () => {
   useEffect(() => {
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
-      setHasProvider(!!provider)
+      setHasProvider(Boolean(provider))
     }
 
     getProvider()
@@ -311,7 +311,7 @@ const App = () => {
 
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
-      setHasProvider(!!provider)
+      setHasProvider(Boolean(provider))
 
       if (provider) {                                           /* New */
         const accounts = await window.ethereum.request(         /* New */
@@ -402,7 +402,7 @@ const App = () => {
 
     const getProvider = async () => {
       const provider = await detectEthereumProvider({ silent: true })
-      setHasProvider(!!provider)
+      setHasProvider(Boolean(provider))
 
       if (provider) {                                           
         const accounts = await window.ethereum.request(
