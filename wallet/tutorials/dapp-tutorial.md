@@ -212,7 +212,7 @@ This is a bit more code, but we are now relying on the `detect-provider` which i
 
 We are creating a piece of local state that be of type boolean or of null value, initialized with a null value.  
 
-Next we create a `useEffect` with zero dependencies (it will only run once in our component lifecycle). 
+Next we create a `useEffect` with zero dependencies (it will only run once in our component lifecycle). React’s `useEffect` hook allows components to run code when a component is mounted or when some property's state changes. This hook also allows cleaning up when the component is unmounted. If you explicitly declare no dependencies by passing in an empty array `[]` like we have done on line 15, `useEffect` will only run once before the component mounts.
 
 Inside that `useEffect` we create an `async` function called `getProvider`. We need to define an async function inside of our `useEffect` because the `useEffect` function itself cannot be `async`. This function `await`s the `detectEthereumProvider` call using an option (`silent: true`) to silence the error we had seen before (it is expected if no provider is present). We use our setter function from within our `useState` and transform the detection of the provider to a `boolean` (true/false) value.
 
@@ -357,6 +357,8 @@ function App() {
 export default App
 ```
 
+One thing to note on the code added is that `useEffect` is a side effect, we use them for fetching data, reads and writes to local storage, and in our case, setting up an event listener or subscription. Our side effect occurs on first render only until we add to our dependency array, so upon unmount of our component, we want to clean-up those listeners.
+
 We can now test our application and see that when we refresh the page, we retain our display of the users address. We can also see that managing state in a single component is a lot of work when we are syncing with a source outside of our application. But most of the logic is in place to start adding a few more properties to our state object.
 
 ### Connection Wrap Up
@@ -394,7 +396,7 @@ function App() {
       }
     }
 
-    const refreshChain = async (chainId: any) => {                       /* New */
+    const refreshChain = (chainId: any) => {                       /* New */
       setWallet((wallet) => ({ ...wallet, chainId }))                    /* New */
     }                                                                    /* New */
 
@@ -474,3 +476,15 @@ You may need to have a list of whitelisted chainId's that your app supports, you
 Our code is starting to get a little confusing. But don't think we have led you astray. We now have our head around connecting and listening to the MetaMask wallet state. But, if we want to bring this functionality to an application with more than one component subscribing to its state, we're going to have to break out of this local state and use something like [React's Context API](https://react.dev/reference/react/useContext) to manage the state globally and ensure that any component in our application can be aware and conditionally render or display information pertaining to our MetaMask wallet.
 
 We also would like to bring in the MetaMask SDK, it's only an import and a few lines of code, we will do that now before lifting up our state to a global context so that you can see it's implementation in both scenarios. In the next section of the tutorial we will introduce MetaMask SDK which will enable our users to connect via Metamask Extension or MetaMask mobile and we will sort out our application state and make it global.
+
+## Connect MetaMask via SDK
+
+> The [MetaMask SDK](https://metamask.io/sdk) lets developers connect to MetaMask Extension or Mobile app independently from where their dapp/app/application is running (web, desktop or mobile) and from how it is developed (ie. JavaScript, native iOS/Android, Unity).
+
+The [@metamask/sdk](https://metamask.io/sdk) is the NPM package we need to install in order to use the MetaMask SDK in a React application.
+
+```bash
+npm install @metamask/sdk
+```
+
+Once we have installed it, we need to think about 
