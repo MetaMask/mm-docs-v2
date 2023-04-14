@@ -2,26 +2,16 @@
 
 MetaMask SDK provides a reliable, secure, and seamless [connection](../../concepts/sdk-connections.md)
 from your dapp to a MetaMask wallet client.
-It currently supports all JavaScript-based, native iOS, and Unity dapps.
-You can see instructions for using the SDK with the following platforms:
+It supports the following dapp platforms:
 
-- [JavaScript](javascript/index.md):
-  - Web dapps:
-    - [React](javascript/react.md)
-    - [Pure JavaScript](javascript/pure-js.md)
-    - [Other web frameworks](javascript/other-web-frameworks.md)
-  - [React Native](javascript/react-native.md)
-  - [Node.js](javascript/nodejs.md)
-  - [Electron](javascript/electron.md)
-- Mobile:
-  - [React Native](javascript/react-native.md)
-  - [native iOS](ios.md)
-- Gaming:
-  - [Unity](unity.md)
-
-:::tip Coming soon
-SDK support for Android and Unreal Engine is coming soon.
-:::
+|             [JavaScript](javascript/index.md)              |           [Mobile](mobile/index.md)           |               [Gaming](gaming/index.md)                |
+|:----------------------------------------------------------:|:---------------------------------------------:|:------------------------------------------------------:|
+|                [React](javascript/react.md)                |  [React Native](javascript/react-native.md)   |                [Unity](gaming/unity.md)                |
+|          [Pure JavaScript](javascript/pure-js.md)          |          [Native iOS](mobile/ios.md)          | [Unreal Engine](gaming/unreal-engine.md) (coming soon) |
+| [Other web frameworks](javascript/other-web-frameworks.md) | [Native Android](mobile/ios.md) (coming soon) |                                                        |
+|         [React Native](javascript/react-native.md)         |                                               |                                                        |
+|              [Node.js](javascript/nodejs.md)               |                                               |                                                        |
+|             [Electron](javascript/electron.md)             |                                               |                                                        |
 
 :::note
 MetaMask SDK uses the [Ethereum provider](../../reference/provider-api.md) that developers are
