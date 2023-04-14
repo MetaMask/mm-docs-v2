@@ -60,7 +60,7 @@ Update `App.tsx` to:
 ```ts
 import './App.css'
 
-function App() {
+const App = () => {
 
   return (
     <div className="App">
@@ -117,7 +117,7 @@ if (typeof window.ethereum !== 'undefined') {
 
 const isMetaMask = injectedProvider ? window.ethereum.isMetaMask : false
 
-function App() {
+const App = () => {
 
   return (
     <div className="App">
@@ -150,7 +150,7 @@ import detectEthereumProvider from '@metamask/detect-provider'
 
 const provider = await detectEthereumProvider()
 
-function App() {
+const App = () => {
 
   return (
     <div className="App">
@@ -183,7 +183,7 @@ import './App.css'
 import { useState, useEffect } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
 
-function App() {
+const App = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null)
 
   useEffect(() => {
@@ -231,7 +231,7 @@ import './App.css'
 import { useState, useEffect } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
 
-function App() {
+const App = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null)
   const initialState = { accounts: [] }               /* New */
   const [wallet, setWallet] = useState(initialState)  /* New */
@@ -294,7 +294,7 @@ import './App.css'
 import { useState, useEffect } from 'react'
 import detectEthereumProvider from '@metamask/detect-provider'
 
-function App() {
+const App = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null)
   const initialState = { accounts: [] }
   const [wallet, setWallet] = useState(initialState)
@@ -381,7 +381,7 @@ import { useState, useEffect } from 'react'
 import { formatBalance, formatChainAsNum } from './utils'                /* New */
 import detectEthereumProvider from '@metamask/detect-provider'
 
-function App() {
+const App = () => {
   const [hasProvider, setHasProvider] = useState<boolean | null>(null)
   const initialState = { accounts: [], balance: "", chainId: "" }        /* Updated */
   const [wallet, setWallet] = useState(initialState)
