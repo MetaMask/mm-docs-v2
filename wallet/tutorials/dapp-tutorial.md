@@ -420,7 +420,7 @@ const App = () => {
       window.ethereum?.removeListener('accountsChanged', refreshAccounts)
       window.ethereum?.removeListener("chainChanged", refreshChain)      /* New */
     }
-  }, [wallet.accounts.length])                                           /* Updated */
+  }, [])
 
   const updateWallet = async (accounts:any) => {
     const balance = formatBalance(await window.ethereum!.request({       /* New */
@@ -467,7 +467,7 @@ That wasn't too bad, the changes were minimal in that we only needed to update o
 
 We detect any change of the `balance` or `chain`, and our utility functions help us in formatting hex strings into human readable from ready for display. For chainId's we want to be able to use the hex version in RPC calls and the numeric version for display. We use `parseInt`, no clever formatting like we did for the balance but we put them both in easy to import and use functions.
 
-A few things to note is that our tutorial's app only needs to display information about our wallet. But in a real Web3 app, you may need to add more functionality for switching chains programatically or initiating transactions. 
+A few things to note is that our tutorial's app only needs to display information about our wallet. But in a real Web3 app, you may need to add more functionality for switching chains programmatically or initiating transactions. 
 
 You may need to have a list of whitelisted chainId's that your app supports, you may need to create UI that shows information on that network, you might want to present a button that allows them to connect to a supported chain, and other things. Knowing the users wallet is on the correct chain and reacting to that in your application is important in almost every Web3 application.
 
