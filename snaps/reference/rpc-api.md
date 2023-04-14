@@ -713,7 +713,7 @@ await snap.request({
 ### wallet_snap
 
 A website must request the `wallet_snap` permission using
-[`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions) in order to
+[`wallet_requestPermissions`](../../wallet/reference/rpc-api#wallet_requestpermissions) to
 interact with the specified snaps.
 
 A website can also call this method to invoke the specified JSON-RPC method of the specified snap.
@@ -721,7 +721,7 @@ A website can also call this method to invoke the specified JSON-RPC method of t
 This method is synonymous to [`wallet_invokeSnap`](#wallet_invokesnap), and is only callable by websites.
 
 :::note
-Most websites only ever make one call to `wallet_requestPermissions`.
+Most websites only make one call to `wallet_requestPermissions`.
 Consecutive calls to `wallet_requestPermissions` for the `wallet_snap` permission overwrites a
 website's existing permissions to interact with snaps.
 To deal with this, you must write custom logic to merge existing snap IDs with new ones you're requesting.
@@ -735,7 +735,7 @@ Specify each snap to request permission to interact with as an entry in the `val
 Each snap entry can include a `version` to install.
 The default is the latest version.
 
-When calling this method, it takes as a parameter one object containing:
+When calling this method, specify an object containing:
 
 - `snapId` - The ID of the snap to invoke.
 - `request` - The JSON-RPC request object to send to the invoked snap.
