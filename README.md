@@ -1,3 +1,5 @@
+This was merged into the former docs site: https://github.com/MetaMask/metamask-docs
+
 # MetaMask developer documentation
 
 This is the new MetaMask developer documentation repository.
