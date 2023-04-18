@@ -1,3 +1,7 @@
+This was archived and merged into the former docs site: https://github.com/MetaMask/metamask-docs
+
+Please open issues and PRs over there instead. 
+
 # MetaMask developer documentation
 
 This is the new MetaMask developer documentation repository.
