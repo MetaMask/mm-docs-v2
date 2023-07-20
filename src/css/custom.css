@@ -88,3 +88,8 @@ h4 {
 .navbar__title {
   font-weight: 500;
 }
+
+table {
+  display: table;
+  width: 100%;
+}
